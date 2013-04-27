@@ -12,7 +12,7 @@ Player = object.create({bombs   = 3,
                        mob.Mob)
 
 function Player:initialise(x, y)
-   self.super:initialise(x, y, resources.sprites["player.png"], 16, 16, 100, 3, 100)
+   self.super:initialise(x, y, resources.sprites["player.png"], 24, 24, 100, 3, 100)
 
    self.bsprite = resources.sprites["bullet.png"]
 end

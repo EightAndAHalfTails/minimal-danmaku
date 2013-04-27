@@ -15,5 +15,5 @@ function Bullet:initialise(x, y, sprite, power, player, step)
 end
 
 function Bullet:collide(target)
-   target.damage(self.power)
+   target:damage(self.power)
 end

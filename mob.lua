@@ -23,7 +23,7 @@ function Mob:emit()
 end
 
 function Mob:damage(amount)
-   self.health = self.health - damage
+   self.health = self.health - amount
 
    if self.health < 0 then
       self.health = self.maxhealth

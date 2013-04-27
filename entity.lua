@@ -30,12 +30,20 @@ function Entity:draw()
 end
 
 function Entity:checkCollide(target)
-   print(self.hitbox)
-   print(target.hitbox)
-   return not ((self.x - self.hitbox.width/2) > (target.x + target.hitbox.width/2) or
-               (self.x + self.hitbox.width/2) < (target.x - target.hitbox.width/2) or
-               (self.y - self.hitbox.height/2) < (target.y + target.hitbox.height/2) or
-               (self.y + self.hitbox.height/2) > (target.y - target.hitbox.height/2))
+   local sleft   = self.x - self.hitbox.width/2
+   local sright  = self.x + self.hitbox.width/2
+   local stop    = self.y - self.hitbox.height/2
+   local sbottom = self.y + self.hitbox.height/2
+
+   local tleft   = target.x - target.hitbox.width/2
+   local tright  = target.x + target.hitbox.width/2
+   local ttop    = target.y - target.hitbox.height/2
+   local tbottom = target.y + target.hitbox.height/2
+
+   return not (sleft > tright or
+               sright < tleft or
+               stop < ttop or
+               sbottom > tbottom)
 end
 
 function Entity:isOffscreen()
