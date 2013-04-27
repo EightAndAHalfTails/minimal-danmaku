@@ -15,6 +15,10 @@ function love.load()
    -- Set up player
    theplayer = player.Player:create()
    theplayer:initialise(250, 850)
+
+   -- Music!
+   resources.sounds["gensou.ogg"]:setLooping(true)
+   love.audio.play(resources.sounds["gensou.ogg"])
 end
 
 function love.update(dt)
@@ -40,6 +44,8 @@ end
 
 function love.draw()
    -- Draw a frame
+   love.graphics.draw(resources.backgrounds["background.png"], 0, 0)
+
    theplayer:draw()
 
    for idx, b in ipairs(bullets) do
