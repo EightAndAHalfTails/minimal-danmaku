@@ -4,6 +4,7 @@ require "object"
 require "resources"
 require "mob"
 require "bullet"
+require "state"
 
 Player = object.create({bombs   = 3,
                         score   = 0,
@@ -67,7 +68,7 @@ function Player:emit()
    bullet:initialise(self.x, self.y, self.bsprite, self.power, true, nil)
    bullet.step = function(self, dt) self.y = self.y - 500 * dt end
 
-   table.insert(bullets, bullet)
+   table.insert(state.bullets, bullet)
 
    self.delay = 0.15
 end
