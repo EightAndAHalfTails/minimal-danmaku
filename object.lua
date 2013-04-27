@@ -6,7 +6,7 @@ module (..., package.seeall)
 ---- To create a new class with a superclass:
 ----    Bar = object.create({}, Foo)
 ---- After creating a class 'Foo', the method 'Foo:initialise()'
----- should be implemented, which is the constructor.
+---- may be implemented, which is the constructor.
 --
 ---- To get an instance of a class we have already created:
 ----    instance = Foo.create()
