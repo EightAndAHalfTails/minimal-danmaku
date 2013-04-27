@@ -9,9 +9,12 @@ function love.load()
    -- Load resources
    resources.load()
 
+   -- Set window size
+   love.graphics.setMode(500, 900)
+
    -- Set up player
    theplayer = player.Player:create()
-   theplayer:initialise(200, 150)
+   theplayer:initialise(250, 850)
 end
 
 function love.update(dt)
