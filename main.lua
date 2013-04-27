@@ -1,5 +1,7 @@
-paused = false
+paused  = false
+bullets = {}
 
+require "bullet"
 require "player"
 
 function love.load()
@@ -14,11 +16,27 @@ function love.update(dt)
    end
 
    player.update(dt)
+
+   -- Move all bullets and check for collisions
+   for idx, b in ipairs(bullets) do
+      b.step(dt)
+
+      if not b.player and bullet.checkcollide(b, player) then
+         bullet.collide(b, player)
+         table.remove(bullets, idx)
+      elseif bullet.offscreen(b) then
+         table.remove(bullets, idx)
+      end
+   end
 end
 
 function love.draw()
    -- Draw a frame
    player.draw()
+
+   for idx, b in ipairs(bullets) do
+      bullet.draw(b)
+   end
 
    -- Paused text: drawn last so it's above everything else
    if paused then
