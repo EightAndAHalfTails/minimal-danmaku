@@ -16,12 +16,15 @@ player = {
    maxhealth = 100,
 
    -- Sprite
-   sprite = love.graphics.newImage("player.png"),
+   sprite = nil,
    width = 0,
    height = 0}
 
-player.width = player.sprite:getWidth()
-player.height = player.sprite:getHeight()
+function player.load()
+   player.sprite = love.graphics.newImage("player.png")
+   player.width  = player.sprite:getWidth()
+   player.height = player.sprite:getHeight()
+end
 
 function player.update(dt)
    if love.keyboard.isDown("right") then
