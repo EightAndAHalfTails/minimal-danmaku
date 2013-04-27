@@ -2,11 +2,26 @@ function love.load()
    -- Load game resources (music, images) from files, and set up initial state.
    paused = false
 
-   player = { x = 200, -- Position
-              y = 150,
-              sprite = love.graphics.newImage("player.png"), -- Sprite
-              width = 0,
-              height = 0}
+   player = {
+      -- Position
+      x = 200,
+      y = 150,
+
+      -- Combat
+      power = 100,
+
+      -- Scoring
+      score = 0,
+
+      -- Health
+      lives = 3,
+      health = 100,
+      maxhealth = 100,
+
+      -- Sprite
+      sprite = love.graphics.newImage("player.png"),
+      width = 0,
+      height = 0}
 
    player.width = player.sprite:getWidth()
    player.height = player.sprite:getHeight()
@@ -34,11 +49,22 @@ end
 
 function love.draw()
    -- Draw a frame
-   if paused then
-      love.graphics.print("Paused", 0, 0)
-   end
+
+   -- Player state
+   love.graphics.print("Score:  " .. player.score, 10, 10)
+   love.graphics.print("Power:  " .. player.power, 10, 25)
+   love.graphics.print("Lives:  " .. player.lives, 10, 40)
+   love.graphics.print("Health: " .. player.health .. " / " .. player.maxhealth, 10, 55)
 
    love.graphics.draw(player.sprite, player.x, player.y, 0, 1, 1, player.width / 2, player.height / 2)
+
+   -- Paused text: drawn last so it's above everything else
+   if paused then
+      r, g, b, a = love.graphics.getColor()
+      love.graphics.setColor(50, 100, 150)
+      love.graphics.print("Paused", 200, 150, 0, 5, 5)
+      love.graphics.setColor(r, g, b, a)
+   end
 end
 
 function love.mousepressed(x, y, button)
