@@ -1,8 +1,8 @@
 module(..., package.seeall);
 
 Entity = {
-local x = 0
-local y = 0
+x = 0,
+y = 0
 }
 Entity_mt = { __index = Entity }
 
@@ -22,3 +22,6 @@ function Entity:draw()
 --draw
 end
 
+function Entity:inheritFrom(SubClass)
+   
+end
