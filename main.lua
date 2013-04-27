@@ -37,6 +37,9 @@ end
 
 function love.keypressed(key, unicode)
    -- Key pressed
+   if not paused then
+      player.keypressed(key, unicode)
+   end
 end
 
 function love.keyreleased(key, unicode)
