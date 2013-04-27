@@ -1,20 +1,20 @@
 module(..., package.seeall);
 
-Entity = {
-   x      = nil,
-   y      = nil,
-   sprite = nil,
-   width  = nil,
-   height = nil,
-   hitbox = nil,
-   power  = nil
-}
-
-Entity_mt = { __index = Entity }
+Entity = {}
 
 function Entity:create()
-    local new_inst = {}
-    setmetatable(new_inst, Entity_mt)
+    local new_inst = {super  = nil,
+                      x      = nil,
+                      y      = nil,
+                      sprite = nil,
+                      width  = nil,
+                      height = nil,
+                      hitbox = nil,
+                      power  = nil}
+
+    for k, v in pairs(Entity) do
+       new_inst[k] = v
+    end
 
     return new_inst
 end
@@ -39,6 +39,8 @@ function Entity:draw()
 end
 
 function Entity:checkCollide(target)
+   print(self.hitbox)
+   print(target.hitbox)
    return not ((self.x - self.hitbox.width/2) > (target.x + target.hitbox.width/2) or
                (self.x + self.hitbox.width/2) < (target.x - target.hitbox.width/2) or
                (self.y - self.hitbox.height/2) < (target.y + target.hitbox.height/2) or

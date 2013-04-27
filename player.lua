@@ -2,21 +2,25 @@ module (..., package.seeall)
 
 require "resources"
 require "mob"
+require "bullet"
 
-Player = {
-   super   = mob.Mob,
-   bombs   = nil,
-   score   = nil,
-   delay   = nil,
-   bsprite = nil,
-}
-
-Player_mt = { __index = Player}
-setmetatable(Player, mob.Mob_mt)
+Player = {}
 
 function Player:create(x, y)
-   local new_inst = {}
-   setmetatable(new_inst, Player_mt)
+   -- Create the new instance
+   local new_inst = {super   = mob.Mob:create(),
+                     bombs   = nil,
+                     score   = nil,
+                     delay   = nil,
+                     bsprite = nil}
+
+   -- Set the metatable to the superclass, for inheritance
+   setmetatable(new_inst, { __index = new_inst.super })
+
+   -- Copy in references to the class methods
+   for k, v in pairs(Player) do
+      new_inst[k] = v
+   end
 
    return new_inst
 end
@@ -77,29 +81,9 @@ function Player:emit()
       return
    end
 
-   local bullet = {
-      -- Used in bullet.draw()
-      sprite = self.bsprite,
-      width = self.bsprite:getWidth(),
-      height = self.bsprite:getHeight(),
-
-      -- Used in bullet.draw() and bullet.checkcollide()
-      x = self.x,
-      y = self.y,
-      hitbox = {
-         width = self.bsprite:getWidth(),
-         height = self.bsprite:getHeight()
-      },
-
-      -- Used in main.update
-      player = true,
-      step = nil,
-
-      -- Used in bullet.collide()
-      power = 0
-   }
-
-   bullet.step = function(dt) bullet.y = bullet.y - 500 * dt end
+   local bullet = bullet.Bullet:create()
+   bullet:initialise(self.x, self.y, self.bsprite, self.power, true, nil)
+   bullet.step = function(self, dt) self.y = self.y - 500 * dt end
 
    table.insert(bullets, bullet)
 

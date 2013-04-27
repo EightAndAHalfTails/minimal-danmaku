@@ -1,20 +1,30 @@
 module(..., package.seeall);
 
-function draw(bullet)
-   love.graphics.draw(bullet.sprite, bullet.x, bullet.y, 0, 1, 1, bullet.width / 2, bullet.height / 2)
-end
-   
-function checkcollide(bullet, target)
-   return not ((bullet.x - bullet.hitbox.width/2) > (target.x + target.hitbox.width/2) or
-               (bullet.x + bullet.hitbox.width/2) < (target.x - target.hitbox.width/2) or
-               (bullet.y - bullet.hitbox.height/2) < (target.y + target.hitbox.height/2) or
-               (bullet.y + bullet.hitbox.height/2) > (target.y - target.hitbox.height/2))
+require "entity"
+
+Bullet = {}
+
+function Bullet:create()
+   local new_inst = {super  = entity.Entity:create(),
+                     player = nil,
+                     step   = nil}
+
+   setmetatable(new_inst, { __index = new_inst.super })
+
+   for k, v in pairs(Bullet) do
+      new_inst[k] = v
+   end
+
+   return new_inst
 end
 
-function collide(bullet, target)
-   target.damage(bullet.power)
+function Bullet:initialise(x, y, sprite, power, player, step)
+   self.super:initialise(x, y, sprite, sprite:getWidth(), sprite:getHeight(), power)
+
+   self.player = player
+   self.step   = step
 end
 
-function offscreen(bullet)
-   return bullet.y < 0
+function Bullet:collide(target)
+   target.damage(self.power)
 end

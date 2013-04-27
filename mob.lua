@@ -2,20 +2,20 @@ module(..., package.seeall);
 
 require "entity"
 
-Mob = {
-   super     = entity.Entity,
-   lives     = nil,
-   health    = nil,
-   maxhealth = nil,
-   dead      = nil
-}
-
-Mob_mt = { __index = Mob }
-setmetatable(Mob, entity.Entity_mt)
+Mob = {}
 
 function Mob:create()
-   local new_inst = {}
-   setmetatable(new_inst, Mob_mt)
+   local new_inst = {super     = entity.Entity:create(),
+                     lives     = nil,
+                     health    = nil,
+                     maxhealth = nil,
+                     dead      = nil}
+
+   setmetatable(new_inst, { __index = new_inst.super })
+
+   for k, v in pairs(Mob) do
+      new_inst[k] = v
+   end
 
    return new_inst
 end

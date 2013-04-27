@@ -24,12 +24,12 @@ function love.update(dt)
 
    -- Move all bullets and check for collisions
    for idx, b in ipairs(bullets) do
-      b.step(dt)
+      b:step(dt)
 
-      if not b.player and bullet.checkcollide(b, player) then
-         bullet.collide(b, player)
+      if not b.player and b:checkCollide(player) then
+         b:collide(player)
          table.remove(bullets, idx)
-      elseif bullet.offscreen(b) then
+      elseif b:isOffscreen() then
          table.remove(bullets, idx)
       end
    end
@@ -40,7 +40,7 @@ function love.draw()
    theplayer:draw()
 
    for idx, b in ipairs(bullets) do
-      bullet.draw(b)
+      b:draw()
    end
 
    -- Paused text: drawn last so it's above everything else
