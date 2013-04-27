@@ -1,36 +1,19 @@
 module (..., package.seeall)
 
+require "object"
 require "resources"
 require "mob"
 require "bullet"
 
-Player = {}
-
-function Player:create(x, y)
-   -- Create the new instance
-   local new_inst = {super   = mob.Mob:create(),
-                     bombs   = nil,
-                     score   = nil,
-                     delay   = nil,
-                     bsprite = nil}
-
-   -- Set the metatable to the superclass, for inheritance
-   setmetatable(new_inst, { __index = new_inst.super })
-
-   -- Copy in references to the class methods
-   for k, v in pairs(Player) do
-      new_inst[k] = v
-   end
-
-   return new_inst
-end
+Player = object.create({bombs   = 3,
+                        score   = 0,
+                        delay   = 0,
+                        bsprite = nil},
+                       mob.Mob)
 
 function Player:initialise(x, y)
    self.super:initialise(x, y, resources.sprites["player.png"], 16, 16, 100, 3, 100)
 
-   self.bombs   = 0
-   self.score   = 0
-   self.delay   = 0
    self.bsprite = resources.sprites["bullet.png"]
 end
 

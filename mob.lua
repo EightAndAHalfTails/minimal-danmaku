@@ -1,24 +1,13 @@
 module(..., package.seeall);
 
+require "object"
 require "entity"
 
-Mob = {}
-
-function Mob:create()
-   local new_inst = {super     = entity.Entity:create(),
-                     lives     = nil,
+Mob = object.create({lives     = nil,
                      health    = nil,
                      maxhealth = nil,
-                     dead      = nil}
-
-   setmetatable(new_inst, { __index = new_inst.super })
-
-   for k, v in pairs(Mob) do
-      new_inst[k] = v
-   end
-
-   return new_inst
-end
+                     dead      = nil},
+                    entity.Entity)
 
 function Mob:initialise(x, y, sprite, hwidth, hheight, power, lives, health)
    self.super:initialise(x, y, sprite, hwidth, hheight, power)

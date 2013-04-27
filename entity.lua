@@ -1,23 +1,14 @@
 module(..., package.seeall);
 
-Entity = {}
+require "object"
 
-function Entity:create()
-    local new_inst = {super  = nil,
-                      x      = nil,
-                      y      = nil,
-                      sprite = nil,
-                      width  = nil,
-                      height = nil,
-                      hitbox = nil,
-                      power  = nil}
-
-    for k, v in pairs(Entity) do
-       new_inst[k] = v
-    end
-
-    return new_inst
-end
+Entity = object.create({x      = nil,
+                        y      = nil,
+                        sprite = nil,
+                        width  = nil,
+                        height = nil,
+                        hitbox = nil,
+                        power  = nil})
 
 function Entity:initialise(x, y, sprite, hwidth, hheight, power)
     self.x      = x
