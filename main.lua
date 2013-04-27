@@ -6,7 +6,7 @@ require "player"
 
 function love.load()
    -- Load game resources (music, images) from files, and set up initial state.
-   player.load()
+   theplayer = player.Player:create(200, 150)
 end
 
 function love.update(dt)
@@ -15,7 +15,7 @@ function love.update(dt)
       return
    end
 
-   player.update(dt)
+   theplayer:update(dt)
 
    -- Move all bullets and check for collisions
    for idx, b in ipairs(bullets) do
@@ -32,7 +32,7 @@ end
 
 function love.draw()
    -- Draw a frame
-   player.draw()
+   theplayer:draw()
 
    for idx, b in ipairs(bullets) do
       bullet.draw(b)
@@ -58,7 +58,7 @@ end
 function love.keypressed(key, unicode)
    -- Key pressed
    if not paused then
-      player.keypressed(key, unicode)
+      theplayer:keypressed(key, unicode)
    end
 end
 

@@ -2,17 +2,47 @@ module(..., package.seeall);
 
 require "entity"
 
-Mob = {}
+Mob = {
+   super     = entity.Entity,
+   lives     = nil,
+   health    = nil,
+   maxhealth = nil,
+   dead      = nil
+}
+
 Mob_mt = { __index = Mob }
 setmetatable(Mob, entity.Entity_mt)
 
-function Mob:create()
-   --local newinst = entity.Entity:create()
-   local newinst = {}
-   --setmetatable( newinst, entity.Entity_mt )
-   setmetatable(newinst, Mob_mt)
-   return newinst
+function Mob:create(x, y, sprite, hwidth, hheight, power, lives, health)
+   -- Create new Entity subclass
+   local new_inst = {}
+   setmetatable(new_inst, Mob_mt)
+
+   -- Initialise variables
+   new_inst:initialise(x, y, sprite, hwidth, hheight, power, lives, health)
+
+   return new_inst
 end
 
-function Mob:checkCollide(target)
+function Mob:initialise(x, y, sprite, hwidth, hheight, power, lives, health)
+   self.super:initialise(x, y, sprite, hwidth, hheight, power)
+
+   self.lives     = lives
+   self.health    = health
+   self.maxhealth = health
+   self.dead      = false
+end
+
+function Mob:emit()
+   error("emit unimplemented")
+end
+
+function Mob:damage(amount)
+   self.health = self.health - damage
+
+   if self.health < 0 then
+      self.health = self.maxhealth
+      self.lives = self.lives - 1
+      self.dead = self.lives < 0
+   end
 end

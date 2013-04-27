@@ -1,98 +1,95 @@
-player = {
-   -- Position
-   x = 200,
-   y = 150,
+module (..., package.seeall)
 
-   -- Combat
-   power = 100,
-   bombs = 3,
+require "mob"
 
-   -- Scoring
-   score = 0,
+Player = {
+   super   = mob.Mob,
+   bombs   = nil,
+   score   = nil,
+   delay   = nil,
+   bsprite = nil,
+}
 
-   -- Health
-   lives = 3,
-   health = 100,
-   maxhealth = 100,
-   dead = false,
+Player_mt = { __index = Player}
+setmetatable(Player, mob.Mob_mt)
 
-   -- Sprite
-   sprite = nil,
-   width = 0,
-   height = 0,
+function Player:create(x, y)
+   local new_inst = {}
+   setmetatable(new_inst, Player_mt)
 
-   -- Misc
-   delay = 0}
+   new_inst:initialise(x, y)
 
-function player.load()
-   player.sprite = love.graphics.newImage("player.png")
-   player.width  = player.sprite:getWidth()
-   player.height = player.sprite:getHeight()
-
-   player.bulletSprite = love.graphics.newImage("bullet.png")
-   player.bulletSpriteWidth = player.bulletSprite:getWidth()
-   player.bulletSpriteHeight = player.bulletSprite:getHeight()
+   return new_inst
 end
 
-function player.update(dt)
+function Player:initialise(x, y)
+   self.super:initialise(x, y, love.graphics.newImage("player.png"), 16, 16, 100, 3, 100)
+
+   self.bombs   = 0
+   self.score   = 0
+   self.delay   = 0
+   self.bsprite = love.graphics.newImage("bullet.png")
+end
+
+function Player:update(dt)
    if love.keyboard.isDown("right") then
-      player.x = player.x + dt * 100
+      self.x = self.x + dt * 100
    elseif love.keyboard.isDown("left") then
-      player.x = player.x - dt * 100
+      self.x = self.x - dt * 100
    end
 
    if love.keyboard.isDown("up") then
-      player.y = player.y - dt * 100
+      self.y = self.y - dt * 100
    elseif love.keyboard.isDown("down") then
-      player.y = player.y + dt * 100
+      self.y = self.y + dt * 100
    end
 
-   if player.delay > 0 then
-      player.delay = player.delay - dt
-      if player.delay < 0 then
-         player.delay = 0
+   if self.delay > 0 then
+      self.delay = self.delay - dt
+      if self.delay < 0 then
+         self.delay = 0
       end
    end
 
    if love.keyboard.isDown("z") then
-      player.emit(dt)
+      self:emit()
    end
 end
 
-function player.draw()
-   love.graphics.print("Score:  " .. player.score, 10, 10)
-   love.graphics.print("Power:  " .. player.power, 10, 25)
-   love.graphics.print("Bombs:  " .. player.bombs, 10, 40)
-   love.graphics.print("Lives:  " .. player.lives, 10, 55)
-   love.graphics.print("Health: " .. player.health .. " / " .. player.maxhealth, 10, 70)
+function Player:draw()
+   love.graphics.print("Score:  " .. self.score, 10, 10)
+   love.graphics.print("Power:  " .. self.power, 10, 25)
+   love.graphics.print("Bombs:  " .. self.bombs, 10, 40)
+   love.graphics.print("Lives:  " .. self.lives, 10, 55)
+   love.graphics.print("Health: " .. self.health .. " / " .. self.maxhealth, 10, 70)
 
-   love.graphics.draw(player.sprite, player.x, player.y, 0, 1, 1, player.width / 2, player.height / 2)
+   self.super.draw(self)
 end
 
-function player.keypressed(key, unicode)
+function Player:keypressed(key, unicode)
    if key == 'x' then
-      player.bomb()
+      self:bomb()
    end
 end
 
-function player.emit(dt)
+function Player:emit()
    -- Emit a normal bullet
-   if player.delay > 0 then
+   if self.delay > 0 then
       return
    end
 
    local bullet = {
       -- Used in bullet.draw()
-      sprite = player.bulletSprite,
-      width = player.bulletSpriteWidth,
-      height = player.bulletSpriteHeight,
+      sprite = self.bsprite,
+      width = self.bsprite:getWidth(),
+      height = self.bsprite:getHeight(),
 
       -- Used in bullet.draw() and bullet.checkcollide()
-      x = player.x,
-      y = player.y,
+      x = self.x,
+      y = self.y,
       hitbox = {
-         width = player.bulletSpriteWidth,
-         height = player.bulletSpriteHeight
+         width = self.bsprite:getWidth(),
+         height = self.bsprite:getHeight()
       },
 
       -- Used in main.update
@@ -107,26 +104,14 @@ function player.emit(dt)
 
    table.insert(bullets, bullet)
 
-   player.delay = 0.15
+   self.delay = 0.15
 end
 
-function player.bomb()
+function Player:bomb()
    -- Emit a bomb, if we have any
-   if player.bombs == 0 then
+   if self.bombs == 0 then
       return
    end
 
-   player.bombs = player.bombs - 1
-end
-
-function player.damage(damage)
-   -- Decrease health, and lives if necessary
-   player.health = player.health - damage
-
-   if player.health < 0 then
-      player.health = player.maxhealth
-      player.lives = player.lives - 1
-
-      player.dead = player.lives >= 0
-   end
+   self.bombs = self.bombs - 1
 end
