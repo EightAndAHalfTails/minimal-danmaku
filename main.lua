@@ -1,11 +1,15 @@
 paused  = false
 bullets = {}
 
+require "resources"
 require "bullet"
 require "player"
 
 function love.load()
-   -- Load game resources (music, images) from files, and set up initial state.
+   -- Load resources
+   resources.load()
+
+   -- Set up player
    theplayer = player.Player:create()
    theplayer:initialise(200, 150)
 end

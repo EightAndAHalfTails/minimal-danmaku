@@ -1,5 +1,6 @@
 module (..., package.seeall)
 
+require "resources"
 require "mob"
 
 Player = {
@@ -21,12 +22,12 @@ function Player:create(x, y)
 end
 
 function Player:initialise(x, y)
-   self.super:initialise(x, y, love.graphics.newImage("player.png"), 16, 16, 100, 3, 100)
+   self.super:initialise(x, y, resources.sprites["player.png"], 16, 16, 100, 3, 100)
 
    self.bombs   = 0
    self.score   = 0
    self.delay   = 0
-   self.bsprite = love.graphics.newImage("bullet.png")
+   self.bsprite = resources.sprites["bullet.png"]
 end
 
 function Player:update(dt)
