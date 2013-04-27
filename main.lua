@@ -19,7 +19,7 @@ function love.load()
       maxhealth = 100,
 
       -- Sprite
-      sprite = love.graphics.newImage("player.png"),
+      sprite = love.graphics.newImage("Ship.png"),
       width = 0,
       height = 0}
 
