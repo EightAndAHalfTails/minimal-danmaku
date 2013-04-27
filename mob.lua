@@ -13,13 +13,9 @@ Mob = {
 Mob_mt = { __index = Mob }
 setmetatable(Mob, entity.Entity_mt)
 
-function Mob:create(x, y, sprite, hwidth, hheight, power, lives, health)
-   -- Create new Entity subclass
+function Mob:create()
    local new_inst = {}
    setmetatable(new_inst, Mob_mt)
-
-   -- Initialise variables
-   new_inst:initialise(x, y, sprite, hwidth, hheight, power, lives, health)
 
    return new_inst
 end

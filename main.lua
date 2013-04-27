@@ -6,7 +6,8 @@ require "player"
 
 function love.load()
    -- Load game resources (music, images) from files, and set up initial state.
-   theplayer = player.Player:create(200, 150)
+   theplayer = player.Player:create()
+   theplayer:initialise(200, 150)
 end
 
 function love.update(dt)

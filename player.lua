@@ -17,8 +17,6 @@ function Player:create(x, y)
    local new_inst = {}
    setmetatable(new_inst, Player_mt)
 
-   new_inst:initialise(x, y)
-
    return new_inst
 end
 

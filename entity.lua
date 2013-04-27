@@ -12,13 +12,9 @@ Entity = {
 
 Entity_mt = { __index = Entity }
 
-function Entity:create(x, y, sprite, hwidth, hheight, power)
-   -- Create new Entity
+function Entity:create()
     local new_inst = {}
     setmetatable(new_inst, Entity_mt)
-
-    -- Initialise variables
-    new_inst:initialise(x, y, sprite, hwidth, hheight, power)
 
     return new_inst
 end
