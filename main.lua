@@ -1,8 +1,10 @@
+paused = false
+
 require "player"
 
 function love.load()
    -- Load game resources (music, images) from files, and set up initial state.
-   paused = false
+   player.load()
 end
 
 function love.update(dt)
