@@ -100,6 +100,10 @@ end
 
 function love.keypressed(key, unicode)
    -- Key pressed
+   if key == 'escape' then
+      state.paused = not state.paused
+   end
+
    if state.paused then
       return
    end
