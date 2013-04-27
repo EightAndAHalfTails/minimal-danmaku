@@ -52,12 +52,6 @@ function Player:draw()
    self.super.draw(self)
 end
 
-function Player:keypressed(key, unicode)
-   if key == 'x' then
-      self:bomb()
-   end
-end
-
 function Player:emit()
    -- Emit a normal bullet
    if self.delay > 0 then

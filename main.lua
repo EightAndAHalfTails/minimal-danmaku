@@ -61,23 +61,15 @@ function love.draw()
    end
 end
 
-function love.mousepressed(x, y, button)
-   -- Mouse pressed
-end
-
-function love.mousereleased(x, y, button)
-   -- Mouse released
-end
-
 function love.keypressed(key, unicode)
    -- Key pressed
-   if not paused then
-      theplayer:keypressed(key, unicode)
+   if paused then
+      return
    end
-end
 
-function love.keyreleased(key, unicode)
-   -- Key released
+   if key == 'x' then
+      theplayer:bomb()
+   end
 end
 
 function love.focus(f)
