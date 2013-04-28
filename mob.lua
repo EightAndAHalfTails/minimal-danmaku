@@ -25,7 +25,7 @@ end
 function Mob:damage(amount)
    self.health = self.health - amount
 
-   if self.health < 0 then
+   if self.health <= 0 then
       self.health = self.maxhealth
       self.lives = self.lives - 1
       self.dead = self.lives < 0

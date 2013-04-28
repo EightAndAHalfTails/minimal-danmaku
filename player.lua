@@ -87,7 +87,7 @@ function Player:emit()
    end
 
    local bullet = bullet.Bullet:create()
-   bullet:initialise(self.x, self.y, self.bsprite, self.power, true, nil)
+   bullet:initialise(self.x, self.y, self.bsprite, self.power, true, nil, false)
    bullet.step = function(self, dt) self:move(self.x, self.y - 500 * dt) end
 
    table.insert(globals.bullets, bullet)
@@ -106,17 +106,32 @@ function Player:bomb()
       return
    end
 
-   -- Destroy all enemy bullets
-   -- TODO: update table in-place
-   local new_bullets = {}
-   for i, bullet in ipairs(globals.bullets) do
-      if bullet.player then
-	 table.insert(new_bullets, bullet)
+   for i = 1,2 do
+      for j = 1,32 do
+         local bullet = bullet.Bullet:create()
+         bullet:initialise(self.x, self.y, self.bsprite, self.power * 10, true, nil, true)
+         bullet.delay = (i - 1) * 10
+         bullet.visible = false
+         bullet.step = function(self, dt)
+            if self.delay > 0 then
+               self.delay = self.delay - dt
+               self:move(globals.player.x, globals.player.y)
+            end
+
+            if self.delay <= 0 then
+               self.visible = true
+
+               local newx = 250 * dt
+               local newy = -250 * dt
+               local theta = 2 * math.pi * j / 32
+               self:move(self.x + newx * math.cos(theta) - newy * math.sin(theta),
+                         self.y + newx * math.sin(theta) + newy * math.cos(theta))
+            end
+         end
+
+         table.insert(globals.bullets, bullet)
       end
    end
-   globals.bullets = new_bullets
-   
-   -- Damage enemies
 
    -- Decrement bomb count
    self.bombs = self.bombs - 1
