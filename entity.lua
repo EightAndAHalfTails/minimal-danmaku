@@ -1,6 +1,7 @@
 module(..., package.seeall);
 
 require "object"
+require "globals"
 
 Entity = object.create({x      = nil,
                         y      = nil,
@@ -16,12 +17,28 @@ function Entity:initialise(x, y, sprite, hwidth, hheight, power)
     self.sprite = sprite
     self.width  = sprite:getWidth()
     self.height = sprite:getHeight()
-    self.hitbox = {width = hwidth, height = hheight}
     self.power  = power
+
+    if hwidth > 0 and hheight > 0 then
+       self.hitbox = globals.collider:addRectangle(
+          x - hwidth/2,
+          y - hheight/2,
+          hwidth,
+          hheight)
+    end
 end
 
-function Entity:update()
+function Entity:update(dt)
    error("update unimplemented")
+end
+
+function Entity:move(x, y)
+   self.x = x
+   self.y = y
+
+   if self.hitbox then
+      self.hitbox:moveTo(x, y)
+   end
 end
 
 function Entity:draw()
@@ -29,27 +46,7 @@ function Entity:draw()
                       self.width / 2, self.height / 2)
 end
 
-function Entity:checkCollide(target)
-   local sleft   = self.x - self.hitbox.width/2
-   local sright  = self.x + self.hitbox.width/2
-   local stop    = self.y - self.hitbox.height/2
-   local sbottom = self.y + self.hitbox.height/2
-
-   local tleft   = target.x - target.hitbox.width/2
-   local tright  = target.x + target.hitbox.width/2
-   local ttop    = target.y - target.hitbox.height/2
-   local tbottom = target.y + target.hitbox.height/2
-
-   return not (sleft > tright or
-               sright < tleft or
-               stop < ttop or
-               sbottom > tbottom)
-end
-
 function Entity:isOffscreen()
-   -- TODO: off the sides or bottom
-   -- return self.y < 0
-
    return not ( self.x > 0 and
 		self.x < globals.MAX_X and
 		self.y > 0 and

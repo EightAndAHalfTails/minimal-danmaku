@@ -22,24 +22,28 @@ function Player:initialise(x, y)
 end
 
 function Player:update(dt)
+   local x = self.x
+   local y = self.y
+
    if love.keyboard.isDown("right") then
-      self.x = self.x + dt * 100 
+      x = x + dt * 100 
    elseif love.keyboard.isDown("left") then
-      self.x = self.x - dt * 100
+      x = x - dt * 100
    end
 
    if love.keyboard.isDown("up") then
-      self.y = self.y - dt * 100
+      y = y - dt * 100
    elseif love.keyboard.isDown("down") then
-      self.y = self.y + dt * 100
+      y = y + dt * 100
    end
 
    -- Keep on screen
-   self.x = math.max( 0, self.x )
-   self.x = math.min( globals.MAX_X, self.x )
-   self.y = math.max( 0, self.y )
-   self.y = math.min( globals.MAX_Y, self.y )
+   x = math.max(0, x)
+   x = math.min(globals.MAX_X, x)
+   y = math.max(0, y)
+   y = math.min(globals.MAX_Y, y)
    
+   self:move(x, y)
 
    if self.delay > 0 then
       self.delay = self.delay - dt
@@ -54,16 +58,6 @@ function Player:update(dt)
 end
 
 function Player:draw()
-   --r, g, b, a = love.graphics.getColor()
-   --love.graphics.setColor(0, 0, 0, 255)
-
-   --love.graphics.print("Score:  " .. self.score, 10, 10)
-   --love.graphics.print("Power:  " .. self.power, 10, 25)
-   --love.graphics.print("Bombs:  " .. self.bombs, 10, 40)
-   --love.graphics.print("Lives:  " .. self.lives, 10, 55)
-   --love.graphics.print("Health: " .. self.health .. " / " .. self.maxhealth, 10, 70)
-
-   --love.graphics.setColor(r, g, b, a)
    hud.draw()
    
    self.super.draw(self)
@@ -77,7 +71,7 @@ function Player:emit()
 
    local bullet = bullet.Bullet:create()
    bullet:initialise(self.x, self.y, self.bsprite, self.power, true, nil)
-   bullet.step = function(self, dt) self.y = self.y - 500 * dt end
+   bullet.step = function(self, dt) self:move(self.x, self.y - 500 * dt) end
 
    table.insert(state.bullets, bullet)
 

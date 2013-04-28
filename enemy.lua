@@ -34,7 +34,9 @@ end
 function BasicEnemy:update(dt)
    self.super:update(dt)
 
-   self.y = self.y + self.vy * dt
+   local newy = self.y + self.vy * dt
+
+   self:move(self.x, newy)
 
    if self.timer > 25 then
       self.vy = self.vy - 10 * dt
@@ -58,17 +60,15 @@ function BasicEnemy:emit()
    b3:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, nil)
 
    b1.step = function(self, dt)
-      self.x = self.x - 50 * dt
-      self.y = self.y + 200 * dt
+      self:move(self.x - 50 * dt, self.y + 200 * dt)
    end
 
    b2.step = function(self, dt)
-      self.y = self.y + 200 * dt
+      self:move(self.x, self.y + 200 * dt)
    end
 
    b3.step = function(self, dt)
-      self.x = self.x + 50 * dt
-      self.y = self.y + 200 * dt
+      self:move(self.x + 50 * dt, self.y + 200 * dt)
    end
 
    table.insert(state.bullets, b1)
