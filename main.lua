@@ -110,10 +110,17 @@ function love.keypressed(key, unicode)
    end
 
    if key == globals.keymap.bomb then
-      --debug()
       state.player:bomb()
-      --debug()
    end
+
+   if key == globals.keymap.mute then
+      if love.audio.getVolume() == 0 then
+	 love.audio.setVolume(1)
+      else
+	 love.audio.setVolume(0)
+      end
+   end
+
 end
 
 function love.focus(f)
@@ -126,10 +133,3 @@ end
 function love.quit()
    -- Terminate game
 end
-
---function debug()
---   for i, b in ipairs(state.bullets) do
---      s = "" .. i .. tostring(b.player)
---      print(s)
---   end
---end
