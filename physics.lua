@@ -13,11 +13,15 @@ function update(dt)
 end
 
 function newHitbox(x, y, width, height)
-   return collider:addRectangle(
-          x - width/2,
-          y - height/2,
-          width,
-          height)
+   if width == 0 or height == 0 then
+      return collider:addPoint(x, y)
+   else
+      return collider:addRectangle(
+         x - width/2,
+         y - height/2,
+         width,
+         height)
+   end
 end
 
 function delHitbox(shape)

@@ -19,15 +19,11 @@ function Entity:initialise(x, y, sprite, hwidth, hheight, power)
     self.height = sprite:getHeight()
     self.power  = power
 
-    if hwidth > 0 and hheight > 0 then
-       self.hitbox = physics.newHitbox(x, y, hwidth, hheight)
-    end
+    self.hitbox = physics.newHitbox(x, y, hwidth, hheight)
 end
 
 function Entity:deinitialise()
-   if self.hitbox then
-      physics.delHitbox(self.hitbox)
-   end
+   physics.delHitbox(self.hitbox)
 end
 
 function Entity:update(dt)
@@ -37,10 +33,7 @@ end
 function Entity:move(x, y)
    self.x = x
    self.y = y
-
-   if self.hitbox then
-      self.hitbox:moveTo(x, y)
-   end
+   self.hitbox:moveTo(x, y)
 end
 
 function Entity:draw()
