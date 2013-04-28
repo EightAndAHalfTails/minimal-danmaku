@@ -57,7 +57,11 @@ function Player:update(dt)
    end
 
    if love.keyboard.isDown(globals.keymap.shoot) then
-      self:emit()
+      if self.focus then
+         self:focusfire()
+      else
+         self:emit()
+      end
    end
 end
 
@@ -80,6 +84,11 @@ function Player:emit()
    table.insert(globals.bullets, bullet)
 
    self.delay = 0.15
+end
+
+function Player:focusfire()
+   -- Emit a focused bullet
+   self:emit()
 end
 
 function Player:bomb()
