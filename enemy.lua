@@ -55,9 +55,9 @@ function BasicEnemy:emit()
    local b2 = bullet.Bullet:create()
    local b3 = bullet.Bullet:create()
 
-   b1:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, nil, false)
-   b2:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, nil, false)
-   b3:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, nil, false)
+   b1:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
+   b2:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
+   b3:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
 
    b1.step = function(self, dt)
       self:move(self.x - 50 * dt, self.y + 200 * dt)
