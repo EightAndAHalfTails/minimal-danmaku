@@ -87,5 +87,18 @@ function Player:bomb()
       return
    end
 
+   -- Destroy all enemy bullets
+   -- TODO: update table in-place
+   local new_bullets = {}
+   for i, bullet in ipairs(state.bullets) do
+      if bullet.player then
+	 table.insert(new_bullets, bullet)
+      end
+   end
+   state.bullets = new_bullets
+   
+   -- Damage enemies
+
+   -- Decrement bomb count
    self.bombs = self.bombs - 1
 end

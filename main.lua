@@ -110,7 +110,9 @@ function love.keypressed(key, unicode)
    end
 
    if key == globals.keymap.bomb then
+      --debug()
       state.player:bomb()
+      --debug()
    end
 end
 
@@ -124,3 +126,10 @@ end
 function love.quit()
    -- Terminate game
 end
+
+--function debug()
+--   for i, b in ipairs(state.bullets) do
+--      s = "" .. i .. tostring(b.player)
+--      print(s)
+--   end
+--end

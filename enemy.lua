@@ -59,16 +59,16 @@ function BasicEnemy:emit()
 
    b1.step = function(self, dt)
       self.x = self.x - 50 * dt
-      self.y = self.y + 100 * dt
+      self.y = self.y + 200 * dt
    end
 
    b2.step = function(self, dt)
-      self.y = self.y + 100 * dt
+      self.y = self.y + 200 * dt
    end
 
    b3.step = function(self, dt)
       self.x = self.x + 50 * dt
-      self.y = self.y + 100 * dt
+      self.y = self.y + 200 * dt
    end
 
    table.insert(state.bullets, b1)
