@@ -20,6 +20,10 @@ function newHitbox(x, y, width, height)
           height)
 end
 
+function delHitbox(shape)
+   collider:remove(shape)
+end
+
 function on_collision(dt, hitbox_a, hitbox_b, mtv_x, mtv_y)
    local bullet = nil
    local bullet_i = nil
@@ -78,9 +82,12 @@ function on_collision(dt, hitbox_a, hitbox_b, mtv_x, mtv_y)
       table.insert(state.explosions, exp)
 
       state.player.score = state.player.score + target.worth
+
+      target:deinitialise()
       table.remove(state.enemies, target_i)
    end
 
    -- Delete the bullet
+   bullet:deinitialise()
    table.remove(state.bullets, bullet_i)
 end

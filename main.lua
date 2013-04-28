@@ -50,6 +50,7 @@ function love.update(dt)
       e:update(dt)
 
       if e:isOffscreen() then
+         e:deinitialise()
          table.remove(state.enemies, i)
       end
    end
@@ -59,6 +60,7 @@ function love.update(dt)
       b:step(dt)
 
       if b:isOffscreen() then
+         b:deinitialise()
          table.remove(state.bullets, idx)
       end
    end

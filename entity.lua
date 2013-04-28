@@ -24,6 +24,12 @@ function Entity:initialise(x, y, sprite, hwidth, hheight, power)
     end
 end
 
+function Entity:deinitialise()
+   if self.hitbox then
+      physics.delHitbox(self.hitbox)
+   end
+end
+
 function Entity:update(dt)
    error("update unimplemented")
 end
