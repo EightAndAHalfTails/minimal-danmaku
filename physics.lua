@@ -80,13 +80,13 @@ function on_collision(dt, hitbox_a, hitbox_b, mtv_x, mtv_y)
          enemy_on_enemy(mobA, mobB)
       end
 
-   elseif mobA and mobA == globals.player then
+   elseif mobA and bulletA and mobA == globals.player then
       if bullet_on_player(bulletA) then
          bulletA:deinitialise()
          table.remove(globals.bullets, bulletAi)
       end
 
-   elseif mobA then
+   elseif mobA and bulletA then
       if bullet_on_enemy(bulletA, mobA) then
          bulletA:deinitialise()
          table.remove(globals.bullets, bulletAi)

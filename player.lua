@@ -87,7 +87,7 @@ function Player:emit()
    end
 
    local bullet = bullet.Bullet:create()
-   bullet:initialise(self.x, self.y, self.bsprite, self.power, true, nil, false)
+   bullet:initialise(self.x, self.y, self.bsprite, self.power, true, false, nil)
    bullet.step = function(self, dt) self:move(self.x, self.y - 500 * dt) end
 
    table.insert(globals.bullets, bullet)
@@ -109,8 +109,8 @@ function Player:bomb()
    for i = 1,2 do
       for j = 1,32 do
          local bullet = bullet.Bullet:create()
-         bullet:initialise(self.x, self.y, self.bsprite, self.power * 10, true, nil, true)
-         bullet.delay = (i - 1) * 10
+         bullet:initialise(self.x, self.y, self.bsprite, self.power * 10, true, true, nil)
+         bullet.delay = (i - 1) * 0.2
          bullet.visible = false
          bullet.step = function(self, dt)
             if self.delay > 0 then
