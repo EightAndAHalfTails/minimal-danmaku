@@ -5,6 +5,7 @@ require "enemy"
 require "globals"
 require "explosion"
 require "physics"
+require "script"
 require "stage1"
 
 function love.load()
@@ -24,6 +25,9 @@ function love.load()
    -- Music!
    resources.sounds["gensou.ogg"]:setLooping(true)
    love.audio.play(resources.sounds["gensou.ogg"])
+
+   -- Load Script
+   script.load(stage1.Script)
 
    -- Scatter around a few enemies
    --globals.enemies[0] = enemy.BasicEnemy:create()
@@ -45,7 +49,7 @@ function love.update(dt)
 
    globals.player:update(dt)
 
-   stage1.update(dt)
+   script.update(dt)
 
    -- Move all enemies
    for i, e in ipairs(globals.enemies) do
