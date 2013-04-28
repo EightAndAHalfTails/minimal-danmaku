@@ -110,7 +110,8 @@ function Player:bomb()
       for j = 1,32 do
          local bullet = bullet.Bullet:create()
          bullet:initialise(self.x, self.y, self.bsprite, self.power * 10, true, nil, true)
-         bullet.delay = (i - 1) * 1
+         bullet.delay = (i - 1) * 10
+         bullet.visible = false
          bullet.step = function(self, dt)
             if self.delay > 0 then
                self.delay = self.delay - dt
@@ -118,6 +119,8 @@ function Player:bomb()
             end
 
             if self.delay <= 0 then
+               self.visible = true
+
                local newx = 250 * dt
                local newy = -250 * dt
                local theta = 2 * math.pi * j / 32

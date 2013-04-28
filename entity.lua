@@ -3,13 +3,14 @@ module(..., package.seeall);
 require "object"
 require "physics"
 
-Entity = object.create({x      = nil,
-                        y      = nil,
-                        sprite = nil,
-                        width  = nil,
-                        height = nil,
-                        hitbox = nil,
-                        power  = nil})
+Entity = object.create({x       = nil,
+                        y       = nil,
+                        sprite  = nil,
+                        width   = nil,
+                        height  = nil,
+                        hitbox  = nil,
+                        power   = nil,
+                        visible = true})
 
 function Entity:initialise(x, y, sprite, hwidth, hheight, power)
     self.x      = x
@@ -37,8 +38,10 @@ function Entity:move(x, y)
 end
 
 function Entity:draw()
-   love.graphics.draw(self.sprite, self.x, self.y, 0, 1, 1,
-                      self.width / 2, self.height / 2)
+   if self.visible then
+      love.graphics.draw(self.sprite, self.x, self.y, 0, 1, 1,
+                         self.width / 2, self.height / 2)
+   end
 end
 
 function Entity:isOffscreen()
