@@ -48,5 +48,10 @@ end
 
 function Entity:isOffscreen()
    -- TODO: off the sides or bottom
-   return self.y < 0
+   -- return self.y < 0
+
+   return not ( self.x > 0 and
+		self.x < globals.MAX_X and
+		self.y > 0 and
+		self.y < globals.MAX_Y )
 end

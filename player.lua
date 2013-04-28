@@ -5,10 +5,11 @@ require "resources"
 require "mob"
 require "bullet"
 require "state"
+require "math"
 
 Player = object.create({bombs   = 3,
                         score   = 0,
-                        delay   = 0,
+                        delay   = 0, -- bullet cooldown
                         bsprite = nil},
                        mob.Mob)
 
@@ -20,7 +21,7 @@ end
 
 function Player:update(dt)
    if love.keyboard.isDown("right") then
-      self.x = self.x + dt * 100
+      self.x = self.x + dt * 100 
    elseif love.keyboard.isDown("left") then
       self.x = self.x - dt * 100
    end
@@ -30,6 +31,13 @@ function Player:update(dt)
    elseif love.keyboard.isDown("down") then
       self.y = self.y + dt * 100
    end
+
+   -- Keep on screen
+   self.x = math.max( 0, self.x )
+   self.x = math.min( globals.MAX_X, self.x )
+   self.y = math.max( 0, self.y )
+   self.y = math.min( globals.MAX_Y, self.y )
+   
 
    if self.delay > 0 then
       self.delay = self.delay - dt
