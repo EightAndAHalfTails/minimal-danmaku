@@ -66,6 +66,7 @@ function load(stage)
    preserved.bombs  = globals.player.bombs
    preserved.health = globals.player.health
    preserved.lives  = globals.player.lives
+   preserved.score  = globals.player.score
 end
 
 function reset()
