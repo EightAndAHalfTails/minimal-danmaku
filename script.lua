@@ -3,7 +3,6 @@ module(..., package.seeall)
 require "globals"
 
 tile       = 0.0
-stage      = nil
 script     = nil
 background = nil
 
@@ -60,9 +59,11 @@ function load(stage)
       list.done = false
    end
 
-   currentstage = stage
+   globals.stage = stage
 end
 
 function reset()
-   load(currentstage)
+   if globals.stage then
+      load(globals.stage)
+   end
 end
