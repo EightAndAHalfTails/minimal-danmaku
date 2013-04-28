@@ -89,7 +89,7 @@ function love.update(dt)
    --TODO: remove dead explosions in-place
    local new_exp = {}
    for i, exp in ipairs(state.explosions) do
-      print(i, exp.ttl)
+      --print(i, exp.ttl)
       if not (exp.ttl < 0) then
 	 table.insert(new_exp, exp)
       end

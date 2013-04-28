@@ -18,10 +18,17 @@ end
 
 function Explosion:update(dt)
    -- TODO: do something to sprite
-   self.offset = self.offset + 10 * dt
+   self.offset = self.offset + 50 * dt
    self.ttl    = self.ttl - 1 * dt
 end
 
 function Explosion:draw()
+   --draw explosion
    self.super:draw()
+
+   --draw points
+   r, g, b, a = love.graphics.getColor()
+   love.graphics.setColor(0, 0, 0, 255)
+   love.graphics.printf(self.text, self.x - self.width/2, self.y - self.offset, self.width,"center")
+   love.graphics.setColor(r, g, b, a)
 end
