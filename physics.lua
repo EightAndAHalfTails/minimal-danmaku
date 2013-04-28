@@ -29,69 +29,116 @@ function delHitbox(shape)
 end
 
 function on_collision(dt, hitbox_a, hitbox_b, mtv_x, mtv_y)
-   local bullet = nil
-   local bullet_i = nil
-   local target = nil
-   local target_i = nil;
+   local bulletA = nil
+   local bulletB = nil
+   local bulletAi = nil
+   local bulletBi = nil
+   local mobA = nil
+   local mobB = nil
+   local del = false
 
    -- Get the bullet
    for i, b in ipairs(globals.bullets) do
       if b.hitbox == hitbox_a or b.hitbox == hitbox_b then
-         bullet = b
-         bullet_i = i
-         break
+         if not bulletA then
+            bulletA = b
+            bulletAi = i
+         else
+            bulletB = b
+            bulletBi = i
+         end
       end
    end
 
    -- Get the target
    if globals.player.hitbox == hitbox_a or globals.player.hitbox == hitbox_b then
-      target = globals.player
-   else
+      mobA = globals.player
+   end
+
+   for i, e in ipairs(globals.enemies) do
+      if e.hitbox == hitbox_a or e.hitbox == hitbox_b then
+         if not mobA then
+            mobA = e
+         else
+            mobB = e
+         end
+      end
+   end
+
+   if bulletA and bulletB then
+      if bullet_on_bullet(bulletA, bulletB) then
+         bulletB:deinitialise()
+         bulletA:deinitialise()
+         table.remove(globals.bullets, bulletBi)
+         table.remove(globals.bullets, bulletAi)
+      end
+
+   elseif mobA and mobB then
+      if mobA == globals.player then
+         player_on_enemy(mobB)
+      else
+         enemy_on_enemy(mobA, mobB)
+      end
+
+   elseif mobA and mobA == globals.player then
+      if bullet_on_player(bulletA) then
+         bulletA:deinitialise()
+         table.remove(globals.bullets, bulletAi)
+      end
+
+   elseif mobA then
+      if bullet_on_enemy(bulletA, mobA) then
+         bulletA:deinitialise()
+         table.remove(globals.bullets, bulletAi)
+      end
+   end
+end
+
+
+-- These functions can be overridden to change the behaviour of the
+-- collision handling. If they return true, the bullets involved are deleted.
+function bullet_on_bullet(bulletA, bulletB)
+   return false
+end
+
+function bullet_on_enemy(bullet, enemy)
+   if not bullet.player then
+      return false
+   end
+
+   bullet:collide(enemy)
+
+   if bullet.player and enemy.dead then
+      local exp = explosion.Explosion:create()
+      exp:initialise(enemy.x, enemy.y, enemy.worth)
+      table.insert(globals.explosions, exp)
+
+      globals.player.score = globals.player.score + enemy.worth
+
+      enemy:deinitialise()
+
       for i, e in ipairs(globals.enemies) do
-         if e.hitbox == hitbox_a or e.hitbox == hitbox_b then
-            target = e
-            target_i = i
+         if e == enemy then
+            table.remove(globals.enemies, i)
             break
          end
       end
    end
 
-   -- If we have a bullet but no target, this is a bullet-on-bullet
-   -- collision; if we have a target but no bullet, this is an
-   -- enemy-on-enemy or enemy-on-player collision. Both cases should
-   -- be ignored.
-   if bullet == nil or target == nil then
-      return
+   return true
+end
+
+function bullet_on_player(bullet)
+   if bullet.player then
+      return false
    end
 
-   -- If the target is the player, and this is a bullet the player
-   -- shot, ignore the collision.
-   if target == globals.player and bullet.player then
-      return
-   end
+   bullet:collide(globals.player)
+   return true
+end
 
-   -- If the target is an enemy, and this is a bullet an enemy shot,
-   -- ignore the collision.
-   if target ~= globals.player and not bullet.player then
-      return
-   end
+function player_on_enemy(enemy)
+end
 
-   -- Handle the actual collision
-   bullet:collide(target)
-
-   -- If we've just killed an enemy, display an explosion.
-   if bullet.player and target.dead then
-      local exp = explosion.Explosion:create()
-      exp:initialise(target.x, target.y, target.worth)
-      table.insert(globals.explosions, exp)
-
-      globals.player.score = globals.player.score + target.worth
-
-      target:deinitialise()
-      table.remove(globals.enemies, target_i)
-   end
-
-   -- Delete the bullet
-   bullet:deinitialise()
-   table.remove(globals.bullets, bullet_i)
+function enemy_on_enemy(enemyA, enemyB)
 end
