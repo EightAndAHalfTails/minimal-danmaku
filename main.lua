@@ -22,12 +22,8 @@ function love.load()
    globals.player = player.Player:create()
    globals.player:initialise(globals.MAX_X/2, globals.MAX_Y-50)
 
-   -- Music!
-   resources.sounds["gensou.ogg"]:setLooping(true)
-   love.audio.play(resources.sounds["gensou.ogg"])
-
    -- Load Script
-   script.load(stage1.Script)
+   script.load(stage1)
 
    -- Scatter around a few enemies
    --globals.enemies[0] = enemy.BasicEnemy:create()
@@ -93,7 +89,11 @@ end
 
 function love.draw()
    -- Draw a frame
-   love.graphics.draw(resources.backgrounds["background.png"], 0, 0)
+   if(script.background) then
+      love.graphics.draw(script.background, 0, 0)
+   end
+
+   --love.graphics.draw(resources.backgrounds["background.png"], 0, 0)
 
    globals.player:draw()
 
