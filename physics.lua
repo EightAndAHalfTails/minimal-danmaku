@@ -98,6 +98,25 @@ end
 -- These functions can be overridden to change the behaviour of the
 -- collision handling. If they return true, the bullets involved are deleted.
 function bullet_on_bullet(bulletA, bulletB)
+   if bulletA.bomb and bulletA.player ~= bulletB.player then
+      bulletB:deinitialise()
+      for i, b in ipairs(globals.bullets) do
+         if b == bulletB then
+            table.remove(globals.bullets, i)
+            break
+         end
+      end
+
+   elseif bulletB.bomb and bulletA.player ~= bulletB.player then
+      bulletA:deinitialise()
+      for i, b in ipairs(globals.bullets) do
+         if b == bulletA then
+            table.remove(globals.bullets, i)
+            break
+         end
+      end
+   end
+
    return false
 end
 
