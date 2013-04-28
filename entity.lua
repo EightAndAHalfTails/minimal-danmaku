@@ -1,7 +1,7 @@
 module(..., package.seeall);
 
 require "object"
-require "globals"
+require "physics"
 
 Entity = object.create({x      = nil,
                         y      = nil,
@@ -20,11 +20,7 @@ function Entity:initialise(x, y, sprite, hwidth, hheight, power)
     self.power  = power
 
     if hwidth > 0 and hheight > 0 then
-       self.hitbox = globals.collider:addRectangle(
-          x - hwidth/2,
-          y - hheight/2,
-          hwidth,
-          hheight)
+       self.hitbox = physics.newHitbox(x, y, hwidth, hheight)
     end
 end
 
