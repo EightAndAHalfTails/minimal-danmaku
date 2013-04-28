@@ -1,4 +1,3 @@
-require "state"
 require "resources"
 require "bullet"
 require "player"
@@ -18,50 +17,50 @@ function love.load()
    physics.initialise()
 
    -- Set up player
-   state.player = player.Player:create()
-   state.player:initialise(globals.MAX_X/2, globals.MAX_Y-50)
+   globals.player = player.Player:create()
+   globals.player:initialise(globals.MAX_X/2, globals.MAX_Y-50)
 
    -- Music!
    resources.sounds["gensou.ogg"]:setLooping(true)
    love.audio.play(resources.sounds["gensou.ogg"])
 
    -- Scatter around a few enemies
-   state.enemies[0] = enemy.BasicEnemy:create()
-   state.enemies[1] = enemy.BasicEnemy:create()
-   state.enemies[2] = enemy.BasicEnemy:create()
-   state.enemies[3] = enemy.BasicEnemy:create()
+   globals.enemies[0] = enemy.BasicEnemy:create()
+   globals.enemies[1] = enemy.BasicEnemy:create()
+   globals.enemies[2] = enemy.BasicEnemy:create()
+   globals.enemies[3] = enemy.BasicEnemy:create()
 
-   state.enemies[0]:initialise(100, 100)
-   state.enemies[1]:initialise(400, 100)
-   state.enemies[2]:initialise(200, 200)
-   state.enemies[3]:initialise(100, 500)
+   globals.enemies[0]:initialise(100, 100)
+   globals.enemies[1]:initialise(400, 100)
+   globals.enemies[2]:initialise(200, 200)
+   globals.enemies[3]:initialise(100, 500)
 end
 
 function love.update(dt)
-   -- Update the game state. dt is the time delta. Don't do anything if paused.
-   if state.paused then
+   -- Update the game globals. dt is the time delta. Don't do anything if paused.
+   if globals.paused then
       return
    end
 
-   state.player:update(dt)
+   globals.player:update(dt)
 
    -- Move all enemies
-   for i, e in ipairs(state.enemies) do
+   for i, e in ipairs(globals.enemies) do
       e:update(dt)
 
       if e:isOffscreen() then
          e:deinitialise()
-         table.remove(state.enemies, i)
+         table.remove(globals.enemies, i)
       end
    end
 
    -- Move all bullets
-   for idx, b in ipairs(state.bullets) do
+   for idx, b in ipairs(globals.bullets) do
       b:step(dt)
 
       if b:isOffscreen() then
          b:deinitialise()
-         table.remove(state.bullets, idx)
+         table.remove(globals.bullets, idx)
       end
    end
 
@@ -69,18 +68,18 @@ function love.update(dt)
    physics.update(dt)
 
    --Update explosions
-   for i, e in ipairs(state.explosions) do
+   for i, e in ipairs(globals.explosions) do
       e:update(dt)
    end
    --TODO: remove dead explosions in-place
    local new_exp = {}
-   for i, exp in ipairs(state.explosions) do
+   for i, exp in ipairs(globals.explosions) do
       --print(i, exp.ttl)
       if not (exp.ttl < 0) then
 	 table.insert(new_exp, exp)
       end
    end
-   state.explosions = new_exp
+   globals.explosions = new_exp
 
 
 end
@@ -89,23 +88,23 @@ function love.draw()
    -- Draw a frame
    love.graphics.draw(resources.backgrounds["background.png"], 0, 0)
 
-   state.player:draw()
+   globals.player:draw()
 
    -- Draw bullets, enemies and explosions 
-   for idx, b in ipairs(state.bullets) do
+   for idx, b in ipairs(globals.bullets) do
       b:draw()
    end
 
-   for idx, e in ipairs(state.enemies) do
+   for idx, e in ipairs(globals.enemies) do
       e:draw()
    end
 
-   for idx, e in ipairs(state.explosions) do
+   for idx, e in ipairs(globals.explosions) do
       e:draw()
    end   
 
    -- Paused text: drawn last so it's above everything else
-   if state.paused then
+   if globals.paused then
       r, g, b, a = love.graphics.getColor()
       love.graphics.setColor(50, 100, 150)
       love.graphics.print("Paused", 200, 150, 0, 5, 5)
@@ -116,15 +115,15 @@ end
 function love.keypressed(key, unicode)
    -- Key pressed
    if key == globals.keymap.pause then
-      state.paused = not state.paused
+      globals.paused = not globals.paused
    end
 
-   if state.paused then
+   if globals.paused then
       return
    end
 
    if key == globals.keymap.bomb then
-      state.player:bomb()
+      globals.player:bomb()
    end
 
    if key == globals.keymap.mute then
@@ -138,9 +137,9 @@ function love.keypressed(key, unicode)
 end
 
 function love.focus(f)
-   -- Focus changed, 'f' is the focus state.
+   -- Focus changed, 'f' is the focus globals.
    if not f then
-      state.paused = true
+      globals.paused = true
    end
 end
 

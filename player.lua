@@ -4,7 +4,6 @@ require "object"
 require "resources"
 require "mob"
 require "bullet"
-require "state"
 require "math"
 require "hud"
 require "globals"
@@ -73,7 +72,7 @@ function Player:emit()
    bullet:initialise(self.x, self.y, self.bsprite, self.power, true, nil)
    bullet.step = function(self, dt) self:move(self.x, self.y - 500 * dt) end
 
-   table.insert(state.bullets, bullet)
+   table.insert(globals.bullets, bullet)
 
    self.delay = 0.15
 end
@@ -87,12 +86,12 @@ function Player:bomb()
    -- Destroy all enemy bullets
    -- TODO: update table in-place
    local new_bullets = {}
-   for i, bullet in ipairs(state.bullets) do
+   for i, bullet in ipairs(globals.bullets) do
       if bullet.player then
 	 table.insert(new_bullets, bullet)
       end
    end
-   state.bullets = new_bullets
+   globals.bullets = new_bullets
    
    -- Damage enemies
 

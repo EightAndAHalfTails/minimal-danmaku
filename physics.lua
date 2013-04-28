@@ -1,6 +1,6 @@
 module (..., package.seeall)
 
-require "state"
+require "globals"
 
 HC = require "HardonCollider"
 
@@ -35,7 +35,7 @@ function on_collision(dt, hitbox_a, hitbox_b, mtv_x, mtv_y)
    local target_i = nil;
 
    -- Get the bullet
-   for i, b in ipairs(state.bullets) do
+   for i, b in ipairs(globals.bullets) do
       if b.hitbox == hitbox_a or b.hitbox == hitbox_b then
          bullet = b
          bullet_i = i
@@ -44,10 +44,10 @@ function on_collision(dt, hitbox_a, hitbox_b, mtv_x, mtv_y)
    end
 
    -- Get the target
-   if state.player.hitbox == hitbox_a or state.player.hitbox == hitbox_b then
-      target = state.player
+   if globals.player.hitbox == hitbox_a or globals.player.hitbox == hitbox_b then
+      target = globals.player
    else
-      for i, e in ipairs(state.enemies) do
+      for i, e in ipairs(globals.enemies) do
          if e.hitbox == hitbox_a or e.hitbox == hitbox_b then
             target = e
             target_i = i
@@ -66,13 +66,13 @@ function on_collision(dt, hitbox_a, hitbox_b, mtv_x, mtv_y)
 
    -- If the target is the player, and this is a bullet the player
    -- shot, ignore the collision.
-   if target == state.player and bullet.player then
+   if target == globals.player and bullet.player then
       return
    end
 
    -- If the target is an enemy, and this is a bullet an enemy shot,
    -- ignore the collision.
-   if target ~= state.player and not bullet.player then
+   if target ~= globals.player and not bullet.player then
       return
    end
 
@@ -83,15 +83,15 @@ function on_collision(dt, hitbox_a, hitbox_b, mtv_x, mtv_y)
    if bullet.player and target.dead then
       local exp = explosion.Explosion:create()
       exp:initialise(target.x, target.y, target.worth)
-      table.insert(state.explosions, exp)
+      table.insert(globals.explosions, exp)
 
-      state.player.score = state.player.score + target.worth
+      globals.player.score = globals.player.score + target.worth
 
       target:deinitialise()
-      table.remove(state.enemies, target_i)
+      table.remove(globals.enemies, target_i)
    end
 
    -- Delete the bullet
    bullet:deinitialise()
-   table.remove(state.bullets, bullet_i)
+   table.remove(globals.bullets, bullet_i)
 end

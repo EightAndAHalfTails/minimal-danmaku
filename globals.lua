@@ -9,3 +9,9 @@ keymap = {
    bomb = 'x',
    mute = 'm'
 }
+
+paused = false
+
+enemies    = {}
+bullets    = {}
+explosions = {}

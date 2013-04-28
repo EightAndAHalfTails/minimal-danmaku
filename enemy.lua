@@ -4,7 +4,7 @@ require "object"
 require "mob"
 require "resources"
 require "bullet"
-require "state"
+require "globals"
 
 Enemy = object.create({delay = 0,
                        timer = 0,
@@ -71,9 +71,9 @@ function BasicEnemy:emit()
       self:move(self.x + 50 * dt, self.y + 200 * dt)
    end
 
-   table.insert(state.bullets, b1)
-   table.insert(state.bullets, b2)
-   table.insert(state.bullets, b3)
+   table.insert(globals.bullets, b1)
+   table.insert(globals.bullets, b2)
+   table.insert(globals.bullets, b3)
 
    self.delay = 1
 end
