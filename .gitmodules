@@ -1,0 +1,3 @@
+[submodule "HardonCollider"]
+	path = HardonCollider
+	url = git://github.com/vrld/HardonCollider.git
