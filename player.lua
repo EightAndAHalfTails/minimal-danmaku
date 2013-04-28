@@ -38,7 +38,7 @@ function Player:update(dt)
       end
    end
 
-   if love.keyboard.isDown("z") then
+   if love.keyboard.isDown(globals.keymap.shoot) then
       self:emit()
    end
 end

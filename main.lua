@@ -3,17 +3,18 @@ require "resources"
 require "bullet"
 require "player"
 require "enemy"
+require "globals"
 
 function love.load()
    -- Load resources
    resources.load()
 
    -- Set window size
-   love.graphics.setMode(500, 900)
+   love.graphics.setMode(globals.MAX_X, globals.MAX_Y)
 
    -- Set up player
    state.player = player.Player:create()
-   state.player:initialise(250, 850)
+   state.player:initialise(globals.MAX_X/2, globals.MAX_Y-50)
 
    -- Music!
    resources.sounds["gensou.ogg"]:setLooping(true)
@@ -100,7 +101,7 @@ end
 
 function love.keypressed(key, unicode)
    -- Key pressed
-   if key == 'escape' then
+   if key == globals.keymap.pause then
       state.paused = not state.paused
    end
 
@@ -108,7 +109,7 @@ function love.keypressed(key, unicode)
       return
    end
 
-   if key == 'x' then
+   if key == globals.keymap.bomb then
       state.player:bomb()
    end
 end
