@@ -5,6 +5,8 @@ require "enemy"
 require "globals"
 require "explosion"
 require "physics"
+require "script"
+require "stage1"
 
 function love.load()
    -- Load resources
@@ -20,20 +22,19 @@ function love.load()
    globals.player = player.Player:create()
    globals.player:initialise(globals.MAX_X/2, globals.MAX_Y-50)
 
-   -- Music!
-   resources.sounds["gensou.ogg"]:setLooping(true)
-   love.audio.play(resources.sounds["gensou.ogg"])
+   -- Load Script
+   script.load(stage1)
 
    -- Scatter around a few enemies
-   globals.enemies[0] = enemy.BasicEnemy:create()
-   globals.enemies[1] = enemy.BasicEnemy:create()
-   globals.enemies[2] = enemy.BasicEnemy:create()
-   globals.enemies[3] = enemy.BasicEnemy:create()
+   --globals.enemies[0] = enemy.BasicEnemy:create()
+   --globals.enemies[1] = enemy.BasicEnemy:create()
+   --globals.enemies[2] = enemy.BasicEnemy:create()
+   --globals.enemies[3] = enemy.BasicEnemy:create()
 
-   globals.enemies[0]:initialise(100, 100)
-   globals.enemies[1]:initialise(400, 100)
-   globals.enemies[2]:initialise(200, 200)
-   globals.enemies[3]:initialise(100, 500)
+   --globals.enemies[0]:initialise(100, 100)
+   --globals.enemies[1]:initialise(400, 100)
+   --globals.enemies[2]:initialise(200, 200)
+   --globals.enemies[3]:initialise(100, 500)
 end
 
 function love.update(dt)
@@ -43,6 +44,8 @@ function love.update(dt)
    end
 
    globals.player:update(dt)
+
+   script.update(dt)
 
    -- Move all enemies
    for i, e in ipairs(globals.enemies) do
@@ -86,7 +89,11 @@ end
 
 function love.draw()
    -- Draw a frame
-   love.graphics.draw(resources.backgrounds["background.png"], 0, 0)
+   if(script.background) then
+      love.graphics.draw(script.background, 0, 0)
+   end
+
+   --love.graphics.draw(resources.backgrounds["background.png"], 0, 0)
 
    globals.player:draw()
 
