@@ -8,7 +8,8 @@ keymap = {
    shoot = 'z',
    bomb  = 'x',
    mute  = 'm',
-   focus = 'lshift'
+   focus = 'lshift',
+   reset = 'r'
 }
 
 paused = false
