@@ -124,16 +124,27 @@ function love.keypressed(key, unicode)
 
    if key == globals.keymap.bomb then
       globals.player:bomb()
-   end
 
-   if key == globals.keymap.mute then
+   elseif key == globals.keymap.mute then
       if love.audio.getVolume() == 0 then
-	 love.audio.setVolume(1)
+         love.audio.setVolume(1)
       else
-	 love.audio.setVolume(0)
+         love.audio.setVolume(0)
       end
+
+   elseif key == globals.keymap.focus then
+      globals.player.focus = true
+   end
+end
+
+function love.keyreleased(key, unicode)
+   if globals.paused then
+      return
    end
 
+   if key == globals.keymap.focus then
+      globals.player.focus = false
+   end
 end
 
 function love.focus(f)

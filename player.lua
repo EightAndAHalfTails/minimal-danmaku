@@ -11,7 +11,11 @@ require "globals"
 Player = object.create({bombs   = 3,
                         score   = 0,
                         delay   = 0, -- bullet cooldown
-                        bsprite = nil},
+                        bsprite = nil,
+                        speed = 400,
+                        focus = false,
+                        slowdown = 2.5
+                       },
                        mob.Mob)
 
 function Player:initialise(x, y)
@@ -23,17 +27,18 @@ end
 function Player:update(dt)
    local x = self.x
    local y = self.y
+   local speed = self.speed / (self.focus and self.slowdown or 1)
 
    if love.keyboard.isDown("right") then
-      x = x + dt * 100 
+      x = x + dt * speed
    elseif love.keyboard.isDown("left") then
-      x = x - dt * 100
+      x = x - dt * speed
    end
 
    if love.keyboard.isDown("up") then
-      y = y - dt * 100
+      y = y - dt * speed
    elseif love.keyboard.isDown("down") then
-      y = y + dt * 100
+      y = y + dt * speed
    end
 
    -- Keep on screen

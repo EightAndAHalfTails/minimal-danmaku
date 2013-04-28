@@ -6,8 +6,9 @@ MAX_Y = 900
 keymap = {
    pause = 'escape',
    shoot = 'z',
-   bomb = 'x',
-   mute = 'm'
+   bomb  = 'x',
+   mute  = 'm',
+   focus = 'lshift'
 }
 
 paused = false
