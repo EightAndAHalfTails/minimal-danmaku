@@ -69,6 +69,15 @@ function Player:draw()
    hud.draw()
    
    self.super.draw(self)
+
+   if self.focus then
+      x1, y1, x2, y2 = self.hitbox:bbox()
+      
+      r, g, b, a = love.graphics.getColor()
+      love.graphics.setColor(50, 100, 150, 255)
+      love.graphics.rectangle("line", x1, y1, x2 - x1, y2 - y1)
+      love.graphics.setColor(r, g, b, a)
+   end
 end
 
 function Player:emit()
