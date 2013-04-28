@@ -141,6 +141,9 @@ function love.keypressed(key, unicode)
 
    elseif key == globals.keymap.focus then
       globals.player.focus = true
+
+   elseif key == globals.keymap.reset then
+      script.reset()
    end
 end
 

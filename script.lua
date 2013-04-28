@@ -1,9 +1,10 @@
 module(..., package.seeall)
 
-local stage = 1
-local time = 0.0
+require "globals"
 
-script = nil
+tile       = 0.0
+stage      = nil
+script     = nil
 background = nil
 
 function update(dt)
@@ -37,4 +38,31 @@ function load(stage)
 
    script = stage.script
    background = resources.backgrounds[stage.background]
+   time = 0.0
+
+   for i, e in pairs(globals.enemies) do
+      e:deinitialise()
+   end
+
+   for i, b in pairs(globals.bullets) do
+      b:deinitialise()
+   end
+
+   for i, e in pairs(globals.explosions) do
+      e:deinitialise()
+   end
+
+   globals.enemies    = {}
+   globals.bullets    = {}
+   globals.explosions = {}
+
+   for t, list in pairs(script) do
+      list.done = false
+   end
+
+   currentstage = stage
+end
+
+function reset()
+   load(currentstage)
 end
