@@ -7,6 +7,7 @@ require "bullet"
 require "state"
 require "math"
 require "hud"
+require "globals"
 
 Player = object.create({bombs   = 3,
                         score   = 0,

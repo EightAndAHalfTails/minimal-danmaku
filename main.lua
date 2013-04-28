@@ -4,6 +4,7 @@ require "bullet"
 require "player"
 require "enemy"
 require "globals"
+require "explosion"
 
 function love.load()
    -- Load resources
@@ -62,9 +63,16 @@ function love.update(dt)
             if b:checkCollide(e) then
                b:collide(e)
                if e.dead then
+		  --make pretty lights
+		  exp = explosion.Explosion:create()
+		  exp:initialise(e.x, e.y, e.worth)
+		  table.insert(state.explosions, exp)
+		  
+		  --remove corpse
                   state.player.score = state.player.score + e.worth
                   table.remove(state.bullets, idx)
                   table.remove(state.enemies, i)
+		  
                end
             end
          end
@@ -73,6 +81,22 @@ function love.update(dt)
          table.remove(state.bullets, idx)
       end
    end
+
+   --Update explosions
+   for i, e in ipairs(state.explosions) do
+      e:update(dt)
+   end
+   --TODO: remove dead explosions in-place
+   local new_exp = {}
+   for i, exp in ipairs(state.explosions) do
+      print(i, exp.ttl)
+      if not (exp.ttl < 0) then
+	 table.insert(new_exp, exp)
+      end
+   end
+   state.explosions = new_exp
+
+
 end
 
 function love.draw()
@@ -81,7 +105,7 @@ function love.draw()
 
    state.player:draw()
 
-   -- Draw bullets and enemies
+   -- Draw bullets, enemies and explosions 
    for idx, b in ipairs(state.bullets) do
       b:draw()
    end
@@ -89,6 +113,10 @@ function love.draw()
    for idx, e in ipairs(state.enemies) do
       e:draw()
    end
+
+   for idx, e in ipairs(state.explosions) do
+      e:draw()
+   end   
 
    -- Paused text: drawn last so it's above everything else
    if state.paused then
