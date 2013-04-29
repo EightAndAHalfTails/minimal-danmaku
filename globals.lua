@@ -17,3 +17,5 @@ paused = false
 enemies    = {}
 bullets    = {}
 explosions = {}
+
+stage = nil

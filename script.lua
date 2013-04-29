@@ -3,9 +3,9 @@ module(..., package.seeall)
 require "globals"
 
 tile       = 0.0
-stage      = nil
 script     = nil
 background = nil
+preserved  = {}
 
 function update(dt)
    time = time + dt*10
@@ -60,9 +60,21 @@ function load(stage)
       list.done = false
    end
 
-   currentstage = stage
+   globals.stage = stage
+
+   preserved.power  = globals.player.power
+   preserved.bombs  = globals.player.bombs
+   preserved.health = globals.player.health
+   preserved.lives  = globals.player.lives
+   preserved.score  = globals.player.score
 end
 
 function reset()
-   load(currentstage)
+   if globals.stage then
+      for k, v in pairs(preserved) do
+         globals.player[k] = v
+      end
+
+      load(globals.stage)
+   end
 end
