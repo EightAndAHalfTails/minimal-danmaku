@@ -22,26 +22,42 @@ function Enemy:update(dt)
    self.timer = self.timer + dt
 end
 
-BasicEnemy = object.create({vy = 100,
-                            delay = 1,
-                            timer = 0},
-                           Enemy)
+BasicEnemy = object.create( { vx = 0,
+			      vy = 100,
+			      ax = 0,
+			      ay = 0,
+			      delay = 1,
+			      timer = 0 },
+			    Enemy )
 
-function BasicEnemy:initialise(x, y)
+function BasicEnemy:initialise(x, y, vx, vy, ax, ay, delay, timer)
    self.super:initialise(x, y, resources.sprites["basicenemy.png"], 32, 32, 50, 10, 5)
+   if vx then self.vx = vx end
+   if vy then self.vy = vy end
+   if ax then self.ax = ax end
+   if ay then self.ay = ay end
+   if delay then self.delay = delay end
+   if timer then self.timer = timer end
 end
 
 function BasicEnemy:update(dt)
    self.super:update(dt)
 
+   --move position
+   local newx = self.x + self.vx * dt
    local newy = self.y + self.vy * dt
+   self:move(newx, newy)
 
-   self:move(self.x, newy)
+   --adjust velocity
+   self.vx = self.vx + self.ax * dt
+   self.vy = self.vy + self.ay * dt
 
+   --what's this part for?
    if self.timer > 25 then
       self.vy = self.vy - 10 * dt
    end
 
+   --check cooldown and fire
    if self.delay > 0 then
       self.delay = self.delay - dt
       if self.delay < 0 then

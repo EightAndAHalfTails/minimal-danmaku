@@ -26,7 +26,10 @@ end
 function execute(entry)
    if entry.enemyType then
       new_enemy = entry.enemyType:create()
-      new_enemy:initialise(entry.x, entry.y)
+      new_enemy:initialise(entry.x, entry.y,
+			   entry.vx, entry.vy,
+			   entry.ax, entry.ay,
+			   entry.delay, entry.timer)
       table.insert(globals.enemies, new_enemy)
    end
 end
