@@ -19,3 +19,5 @@ bullets    = {}
 explosions = {}
 
 stage = nil
+
+assets = nil

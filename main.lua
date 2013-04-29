@@ -6,9 +6,22 @@ require "globals"
 require "explosion"
 require "physics"
 require "script"
-require "stage1"
 
 function love.load()
+   -- Load game assets
+   globals.asset_path = arg[2] or "assets/"
+
+   if globals.asset_path[-1] ~= "/" then
+      globals.asset_path = globals.asset_path .. "/"
+   end
+
+   if not love.filesystem.isDirectory(globals.asset_path) then
+      error("Could not access asset path: " .. globals.asset_path)
+   end
+   
+   package.path = globals.asset_path .. "?.lua;" .. package.path
+   globals.assets = require(globals.asset_path)
+
    -- Load resources
    resources.load()
 
@@ -23,18 +36,7 @@ function love.load()
    globals.player:initialise(globals.MAX_X/2, globals.MAX_Y-50)
 
    -- Load Script
-   script.load(stage1)
-
-   -- Scatter around a few enemies
-   --globals.enemies[0] = enemy.BasicEnemy:create()
-   --globals.enemies[1] = enemy.BasicEnemy:create()
-   --globals.enemies[2] = enemy.BasicEnemy:create()
-   --globals.enemies[3] = enemy.BasicEnemy:create()
-
-   --globals.enemies[0]:initialise(100, 100)
-   --globals.enemies[1]:initialise(400, 100)
-   --globals.enemies[2]:initialise(200, 200)
-   --globals.enemies[3]:initialise(100, 500)
+   script.load()
 end
 
 function love.update(dt)

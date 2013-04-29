@@ -16,7 +16,10 @@ code is probably horrific. Apologies.
 Usage
 -----
 
-    love /path/to/files
+    love /path/to/files assets-dir
+
+The optional `assets-dir` if the name of the subdirectory of the game
+directory to load assets from. If unspecified, "assets/" is used.
 
 Links
 -----

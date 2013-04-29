@@ -35,7 +35,7 @@ function execute(entry)
    end
 end
 
-function load(stage)
+function dispatch(stage)
    -- Music!
    resources.sounds[stage.music]:setLooping(true)
    love.audio.play(resources.sounds[stage.music])
@@ -79,6 +79,10 @@ function reset()
          globals.player[k] = v
       end
 
-      load(globals.stage)
+      dispatch(globals.stage)
    end
+end
+
+function load()
+   dispatch(globals.assets.stages[1])
 end
