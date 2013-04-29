@@ -29,5 +29,12 @@ function Mob:damage(amount)
       self.health = self.maxhealth
       self.lives = self.lives - 1
       self.dead = self.lives < 0
+      
+      if self.dead then
+         self:onDeath()
+      end
    end
+end
+
+function Mob:onDeath()
 end

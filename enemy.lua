@@ -157,3 +157,6 @@ function Boss1:emit()
    table.insert(globals.bullets, b2)
 end
 
+function Boss1:onDeath()
+   globals.player.power = globals.player.power - 20
+end
