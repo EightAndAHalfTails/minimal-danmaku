@@ -53,16 +53,15 @@ function BasicEnemy:update(dt)
    self.vy = self.vy + self.ay * dt
 
    --what's this part for?
-   if self.timer > 25 then
-      self.vy = self.vy - 10 * dt
-   end
+   --if self.timer > 25 then
+   --   self.vy = self.vy - 10 * dt
+   --end
 
    --check cooldown and fire
    if self.delay > 0 then
       self.delay = self.delay - dt
-      if self.delay < 0 then
-         self:emit()
-      end
+   else
+      self:emit()
    end
 end
 
@@ -93,3 +92,68 @@ function BasicEnemy:emit()
 
    self.delay = 1
 end
+
+-- First Boss
+Boss1 = object.create( { vx = 0,
+			 vy = 10,
+			 rocket_delay = 3,
+			 shot_delay = 1,
+			 firing = false },
+		       Enemy )
+
+function Boss1:initialise()
+   self.super:initialise(
+      globals.MAX_X/2,
+      0,
+      resources.sprites["basicenemy.png"],
+      32, 32, --hitbox dimensions
+      101, --power
+      5000, --health
+      9001 --worth
+			)
+end
+
+function Boss1:update(dt)
+   self.super:update(dt) --increase timer
+   --print(self.x, self.y, self.timer, self.firing)
+
+   --move position
+   if self.y < 64 then
+      local newy = self.y + self.vy * dt
+      self:move(self.x, newy)
+   end
+      
+   if self.timer > 5 then
+      self.firing = true
+   end
+
+   --check cooldown and fire
+   if self.firing then
+      if self.rocket_delay > 0 then
+	 self.rocket_delay = self.rocket_delay - dt
+      else
+	 self:emit()
+	 self.rocket_delay = 3
+      end
+      
+      if self.shot_delay > 0 then
+	 self.shot_delay = self.shot_delay - dt
+      else
+	 BasicEnemy.emit(self)
+	 self.shot_delay = 1
+      end
+   end
+end
+
+function Boss1:emit()
+   
+   local b1 = bullet.Rocket:create()
+   local b2 = bullet.Rocket:create()
+
+   b1:initialise(self.x, self.y, 3, 101, -10, -20)
+   b2:initialise(self.x, self.y, 3, 101, 10, 20)
+
+   table.insert(globals.bullets, b1)
+   table.insert(globals.bullets, b2)
+end
+

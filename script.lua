@@ -25,6 +25,7 @@ end
 
 function execute(entry)
    if entry.enemyType then
+      --print(entry.enemyType)
       new_enemy = entry.enemyType:create()
       new_enemy:initialise(entry.x, entry.y,
 			   entry.vx, entry.vy,
