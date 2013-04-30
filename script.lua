@@ -81,6 +81,8 @@ function reset()
 
       dispatch(globals.stage)
    end
+
+   globals.player:move(globals.MAX_X/2, globals.MAX_Y - 50)
 end
 
 function load()

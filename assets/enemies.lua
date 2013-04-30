@@ -82,6 +82,7 @@ Boss1.vx = 0
 Boss1.vy = 10
 Boss1.rocket_delay = 3
 Boss1.shot_delay = 1
+Boss1.burst_fire = false
 Boss1.firing = false
 
 function Boss1:initialise()
@@ -117,13 +118,25 @@ function Boss1:update(dt)
       else
 	 self:emit()
 	 self.rocket_delay = 3
+	 self.burst_fire = not self.burst_fire
       end
       
-      if self.shot_delay > 0 then
-	 self.shot_delay = self.shot_delay - dt
+      if self.burst_fire then
+	 local b = bullet.Bullet(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
+	 local dx = globals.player.x - self.x
+	 local dy = globals.player.y - self.y
+	 
+	 b.step = function(self, dt)
+	    self:move(self.x + dx * dt, self.y + dy * dt)
+	 end
+	 table.insert(globals.bullets, b)
       else
-	 BasicEnemy.emit(self)
-	 self.shot_delay = 1
+	 if self.shot_delay > 0 then
+	    self.shot_delay = self.shot_delay - dt
+	 else
+	    BasicEnemy.emit(self)
+	    self.shot_delay = 1
+	 end
       end
    end
 end
