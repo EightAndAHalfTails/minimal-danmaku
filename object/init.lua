@@ -48,7 +48,9 @@ function create(superclass)
       -- Set up the metatable
       local new_inst_mt = {}
 
-      new_inst_mt.__index = new_inst.super
+      new_inst_mt.__index = function(table, key)
+         return new_inst.super[key]
+      end
 
       new_inst_mt.__newindex = function(table, key, value)
          if table.super[key] then
@@ -67,6 +69,14 @@ function create(superclass)
       local new_inst = new_class:__create__()
       new_inst:initialise(...)
       return new_inst
+   end
+
+   function new_class:initialise(...)
+      self.super:initialise(...)
+   end
+
+   function new_class:deinitialise(...)
+      self.super:deinitialise(...)
    end
 
    return new_class
