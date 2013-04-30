@@ -1,8 +1,9 @@
 module (..., package.seeall)
 
 local _NAME = (...)
-
+package.path = _NAME .. "/?.lua;" .. package.path
 object = require(_NAME .. ".object")
+mms = require(_NAME .. ".metamethods")
 
 -- Object system documentation
 ---- To create a brand new class subclassing Object:
@@ -23,6 +24,8 @@ object = require(_NAME .. ".object")
 --
 ---- To call a method on an instance:
 ----    instance:foo(...)
+--
+---- See Object for documentation of all of the standard methods.
 
 -- Create a class
 ---- The superclass, if given, is a class that methods and state is
@@ -46,13 +49,14 @@ function create(superclass)
       new_inst.super = superclass:__create__()
 
       -- Set up the metatable
-      local new_inst_mt = {}
+      new_inst.__metatable__ = {}
+      setmetatable(new_inst, new_inst.__metatable__)
 
-      new_inst_mt.__index = function(table, key)
+      new_inst.__metatable__.__index = function(table, key)
          return new_inst.super[key]
       end
 
-      new_inst_mt.__newindex = function(table, key, value)
+      new_inst.__metatable__.__newindex = function(table, key, value)
          if table.super[key] then
             table.super[key] = value
          else
@@ -60,7 +64,9 @@ function create(superclass)
          end
       end
 
-      setmetatable(new_inst, new_inst_mt)
+      new_inst.__metatable__.__eq = mms.__eq
+      new_inst.__metatable__.__lt = mms.__lt
+      new_inst.__metatable__.__le = mms.__le
 
       return new_inst
    end
@@ -69,6 +75,14 @@ function create(superclass)
       local new_inst = new_class:__create__()
       new_inst:initialise(...)
       return new_inst
+   end
+
+   function new_class:__eq__(other)
+      return self.super == other
+   end
+
+   function new_class:__lt__(other)
+      return self.super < other
    end
 
    function new_class:initialise(...)
