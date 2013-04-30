@@ -26,3 +26,20 @@ function Enemy:explode()
    table.insert(globals.explosions, exp)
    globals.player.score = globals.player.score + self.worth
 end
+
+Boss = object.create({},
+		     Enemy)
+
+function Boss:draw()
+   self.super:draw()
+   print("drawing")
+   local maxwidth = globals.MAX_X - 60
+   local width    = maxwidth * self.health / self.maxhealth 
+
+   r, g, b, a = love.graphics.getColor()
+   love.graphics.setColor(0,0,0,128)
+   love.graphics.rectangle('fill', 10, 30, maxwidth, 30)
+   love.graphics.setColor(255,0,0,0)
+   love.graphics.rectangle('fill', 10, 30, width, 30)
+   love.graphics.setColor(r,g,b,a)
+end

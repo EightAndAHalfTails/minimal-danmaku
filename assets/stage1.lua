@@ -45,5 +45,5 @@ script =
 	    { bullet = bullets.Rocket, args = { 300, 100,  10, 200, 0, -400, 1, 30 } },
 	    { bullet = bullets.Rocket, args = { 400, 100,  20, 200, 0, -400, 1, 30 } }, done = false },
 
-   [350] = { { enemy = enemies.Boss1}, done = false },
+   [20] = { { enemy = enemies.Boss1}, done = false },
 }
