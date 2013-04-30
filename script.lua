@@ -39,8 +39,8 @@ end
 
 function dispatch(stage)
    -- Music!
-   resources.sounds[stage.music]:setLooping(true)
-   love.audio.play(resources.sounds[stage.music])
+   resources.bgm[stage.music]:setLooping(true)
+   love.audio.play(resources.bgm[stage.music])
 
    script = stage.script
    background = resources.backgrounds[stage.background]
