@@ -22,8 +22,7 @@ function Enemy:update(dt)
 end
 
 function Enemy:explode()
-   local exp = explosion.Explosion:create()
-   exp:initialise(self.x, self.y, self.worth)
+   local exp = explosion.Explosion:new(self.x, self.y, self.worth)
    table.insert(globals.explosions, exp)
    globals.player.score = globals.player.score + self.worth
 end

@@ -41,7 +41,6 @@ function Mob:onDeath()
 end
 
 function Mob:explode()
-   local exp = explosion.Explosion:create()
-   exp:initialise(self.x, self.y)
+   local exp = explosion.Explosion:new(self.x, self.y)
    table.insert(globals.explosions, exp)
 end
