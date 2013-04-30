@@ -5,11 +5,12 @@ require "entity"
 require "explosion"
 require "globals"
 
-Mob = object.create({lives     = nil,
-                     health    = nil,
-                     maxhealth = nil,
-                     dead      = nil},
-                    entity.Entity)
+Mob = object.create(entity.Entity)
+
+Mob.lives     = nil
+Mob.health    = nil
+Mob.maxhealth = nil
+Mob.dead      = false
 
 function Mob:initialise(x, y, sprite, hwidth, hheight, power, lives, health)
    self.super:initialise(x, y, sprite, hwidth, hheight, power)

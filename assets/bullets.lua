@@ -4,12 +4,15 @@ require "object"
 require "entity"
 require "bullet"
 
-Rocket = object.create( { timer = 0,
-			  delay = 3,
-			  vx = 0, vy = 80,
-			  ax = 0, ay = -40,
-			  locked = false},
-			bullet.Bullet)
+Rocket = object.create(bullet.Bullet)
+
+Rocket.timer = 0
+Rocket.delay = 3
+Rocket.vx = 0
+Rocket.vy = 80
+Rocket.ax = 0
+Rocket.ay = -40
+Rocket.locked = false
 
 function Rocket:initialise(x, y, vx, vy, ax, ay, delay, power)
    self.super:initialise(x, y,

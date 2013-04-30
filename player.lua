@@ -8,15 +8,15 @@ require "math"
 require "hud"
 require "globals"
 
-Player = object.create({bombs   = 3,
-                        score   = 0,
-                        delay   = 0, -- bullet cooldown
-                        bsprite = nil,
-                        speed = 400,
-                        focus = false,
-                        slowdown = 2.5
-                       },
-                       mob.Mob)
+Player = object.create(mob.Mob)
+
+Player.bombs   = 3
+Player.score   = 0
+Player.delay   = 0
+Player.bsprite = nil
+Player.speed = 400
+Player.focus = false
+Player.slowdown = 2.5
 
 function Player:initialise(x, y)
    self.super:initialise(x, y, resources.sprites["player.png"], 24, 24, 100, 3, 100)

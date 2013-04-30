@@ -7,13 +7,14 @@ require "bullet"
 require "bullets"
 require "globals"
 
-BasicEnemy = object.create( { vx = 0,
-			      vy = 100,
-			      ax = 0,
-			      ay = 0,
-			      delay = 1,
-			      timer = 0 },
-			    enemy.Enemy )
+BasicEnemy = object.create(enemy.Enemy)
+
+BasicEnemy.vx = 0
+BasicEnemy.vy = 100
+BasicEnemy.ax = 0
+BasicEnemy.ay = 0
+BasicEnemy.delay = 1
+BasicEnemy.timer = 0
 
 function BasicEnemy:initialise(x, y, vx, vy, ax, ay, delay, timer)
    self.super:initialise(x, y, resources.sprites["basicenemy.png"], 32, 32, 50, 10, 5)
@@ -75,12 +76,13 @@ function BasicEnemy:emit()
 end
 
 -- First Boss
-Boss1 = object.create( { vx = 0,
-			 vy = 10,
-			 rocket_delay = 3,
-			 shot_delay = 1,
-			 firing = false },
-		       enemy.Boss )
+Boss1 = object.create(enemy.Boss)
+
+Boss1.vx = 0
+Boss1.vy = 10
+Boss1.rocket_delay = 3
+Boss1.shot_delay = 1
+Boss1.firing = false
 
 function Boss1:initialise()
    self.super:initialise(

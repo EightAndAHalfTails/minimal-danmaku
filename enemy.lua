@@ -5,10 +5,11 @@ require "mob"
 require "explosion"
 require "globals"
 
-Enemy = object.create({delay = 0,
-                       timer = 0,
-                       worth = nil},
-                      mob.Mob)
+Enemy = object.create(mob.Mob)
+
+Enemy.delay = 0
+Enemy.timer = 0
+Enemy.worth = nil
 
 function Enemy:initialise(x, y, sprite, hwidth, hheight, power, health, worth)
    self.super:initialise(x, y, sprite, hwidth, hheight, power, 0, health)
@@ -31,8 +32,7 @@ function Enemy:explode()
    globals.player.score = globals.player.score + self.worth
 end
 
-Boss = object.create({},
-		     Enemy)
+Boss = object.create(Enemy)
 
 function Boss:draw()
    self.super:draw()
@@ -40,7 +40,6 @@ function Boss:draw()
    local y = globals.MAX_Y - 20
    local maxwidth = globals.MAX_X - 20
    local width    = maxwidth * self.health / self.maxhealth 
-   --print(width, maxwidth)
 
    r, g, b, a = love.graphics.getColor()
    love.graphics.setColor(0,0,0,128)
