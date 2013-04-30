@@ -73,10 +73,6 @@ function create(state, superclass)
       return new_inst
    end
 
-   function new_class:initialise(...)
-      self.super:initialise(...)
-   end
-
    function new_class:new(...)
       local new_inst = new_class:__create__()
       new_inst:initialise(...)
