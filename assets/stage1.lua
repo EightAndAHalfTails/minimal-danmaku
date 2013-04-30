@@ -40,5 +40,10 @@ script =
    [240] = { { enemy = enemies.BasicEnemy, args = { 0            , 100,  300, 300, 0, 0} },
   	     { enemy = enemies.BasicEnemy, args = { globals.MAX_X, 100, -300, 300, 0, 0} }, done = false },
 
-   [300] = { { enemy = enemies.Boss1}, done = false }
+   [300] = { { bullet = bullets.Rocket, args = { 100, 100, -20, 200, 0, -400, 1, 30 } },
+	    { bullet = bullets.Rocket, args = { 200, 100, -10, 200, 0, -400, 1, 30 } },
+	    { bullet = bullets.Rocket, args = { 300, 100,  10, 200, 0, -400, 1, 30 } },
+	    { bullet = bullets.Rocket, args = { 400, 100,  20, 200, 0, -400, 1, 30 } }, done = false },
+
+   [350] = { { enemy = enemies.Boss1}, done = false },
 }

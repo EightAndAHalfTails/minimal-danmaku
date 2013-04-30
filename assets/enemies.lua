@@ -135,8 +135,8 @@ function Boss1:emit()
    local b1 = bullets.Rocket:create()
    local b2 = bullets.Rocket:create()
 
-   b1:initialise(self.x, self.y, 3, 101, -10, -20)
-   b2:initialise(self.x, self.y, 3, 101, 10, 20)
+   b1:initialise(self.x, self.y, -10, 80, -20, -40, 3, 101)
+   b2:initialise(self.x, self.y,  10, 80,  20, -40, 3, 101)
 
    table.insert(globals.bullets, b1)
    table.insert(globals.bullets, b2)
