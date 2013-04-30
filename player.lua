@@ -136,3 +136,18 @@ function Player:bomb()
    -- Decrement bomb count
    self.bombs = self.bombs - 1
 end
+
+function Player:damage(amount)
+   if self.super:damage(amount) then self:onDeath() end
+end
+
+function Player:onDeath()
+   self.super:onDeath()
+   --print("You Died", self.health, self.maxhealth)
+   local exp = explosion.Explosion:create()
+   exp:initialise(self.x, self.y)
+   table.insert(globals.explosions, exp)
+
+   self.x = globals.MAX_X/2
+   self.y = globals.MAX_Y-50
+end

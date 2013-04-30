@@ -24,17 +24,16 @@ end
 
 function Mob:damage(amount)
    self.health = self.health - amount
-
    if self.health <= 0 then
-      self.health = self.maxhealth
-      self.lives = self.lives - 1
-      self.dead = self.lives < 0
-      
-      if self.dead then
-         self:onDeath()
-      end
+      self:onDeath()
+      return true
    end
+
 end
 
 function Mob:onDeath()
+   --print(self.health, self.maxhealth)
+   self.lives = self.lives - 1
+   self.health = self.maxhealth
+   self.dead = self.lives < 0
 end
