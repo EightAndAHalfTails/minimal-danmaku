@@ -91,7 +91,7 @@ function Boss1:initialise()
       resources.sprites["basicenemy.png"],
       32, 32, --hitbox dimensions
       101, --power
-      5000, --health
+      10000, --health
       9001 --worth
 			)
 end

@@ -46,6 +46,9 @@ function Rocket:initialise(x, y, vx, vy, ax, ay, delay, power)
 
 	 self.ax = 0
 	 self.ay = 0
+
+	 sfx = love.audio.newSource(resources.sfx["burst.ogg"])
+	 love.audio.play(sfx)
 	 
 	 --TODO: work out how to rotate sprite
 	 --self.sprite = self.sprite:rotate(math.atan2(self.vx, self.vy))

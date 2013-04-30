@@ -17,6 +17,7 @@ Player.bsprite = nil
 Player.speed = 400
 Player.focus = false
 Player.slowdown = 2.5
+Player.invincible = 0
 
 function Player:initialise(x, y)
    self.super:initialise(x, y, resources.sprites["player.png"], 24, 24, 100, 3, 100)
@@ -25,6 +26,10 @@ function Player:initialise(x, y)
 end
 
 function Player:update(dt)
+   if self.invincible > 0 then
+      self.invincible = self.invincible - dt
+   end
+
    local x = self.x
    local y = self.y
    local speed = self.speed / (self.focus and self.slowdown or 1)
@@ -136,12 +141,15 @@ function Player:bomb()
 
    -- Decrement bomb count
    self.bombs = self.bombs - 1
+   self.invincible = 1
 end
 
 function Player:damage(amount)
+   if self.invincible > 0 then return end
    if self.super:damage(amount) then self:onDeath() end
 end
 
 function Player:onDeath()
+   self.invincible = 3
    self:move(globals.MAX_X/2, globals.MAX_Y-50)
 end
