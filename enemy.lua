@@ -32,14 +32,16 @@ Boss = object.create({},
 
 function Boss:draw()
    self.super:draw()
-   print("drawing")
-   local maxwidth = globals.MAX_X - 60
+
+   local y = globals.MAX_Y - 20
+   local maxwidth = globals.MAX_X - 20
    local width    = maxwidth * self.health / self.maxhealth 
+   print(width, maxwidth)
 
    r, g, b, a = love.graphics.getColor()
    love.graphics.setColor(0,0,0,128)
-   love.graphics.rectangle('fill', 10, 30, maxwidth, 30)
-   love.graphics.setColor(255,0,0,0)
-   love.graphics.rectangle('fill', 10, 30, width, 30)
+   love.graphics.rectangle('fill', 10, y, maxwidth, 10)
+   love.graphics.setColor(255,0,0,255)
+   love.graphics.rectangle('fill', 10, y, width, 10)
    love.graphics.setColor(r,g,b,a)
 end
