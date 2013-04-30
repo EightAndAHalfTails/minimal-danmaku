@@ -80,7 +80,7 @@ Boss1 = object.create( { vx = 0,
 			 rocket_delay = 3,
 			 shot_delay = 1,
 			 firing = false },
-		       enemy.Enemy )
+		       enemy.Boss )
 
 function Boss1:initialise()
    self.super:initialise(
