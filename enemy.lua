@@ -24,6 +24,10 @@ end
 function Enemy:explode()
    local exp = explosion.Explosion:new(self.x, self.y, self.worth)
    table.insert(globals.explosions, exp)
+
+   local sfx = love.audio.newSource(resources.sfx["explosion.ogg"])
+   love.audio.play(sfx)
+
    globals.player.score = globals.player.score + self.worth
 end
 
@@ -36,7 +40,7 @@ function Boss:draw()
    local y = globals.MAX_Y - 20
    local maxwidth = globals.MAX_X - 20
    local width    = maxwidth * self.health / self.maxhealth 
-   print(width, maxwidth)
+   --print(width, maxwidth)
 
    r, g, b, a = love.graphics.getColor()
    love.graphics.setColor(0,0,0,128)
