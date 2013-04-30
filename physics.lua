@@ -128,12 +128,6 @@ function bullet_on_enemy(bullet, enemy)
    bullet:collide(enemy)
 
    if bullet.player and enemy.dead then
-      local exp = explosion.Explosion:create()
-      exp:initialise(enemy.x, enemy.y, enemy.worth)
-      table.insert(globals.explosions, exp)
-
-      globals.player.score = globals.player.score + enemy.worth
-
       enemy:deinitialise()
 
       for i, e in ipairs(globals.enemies) do

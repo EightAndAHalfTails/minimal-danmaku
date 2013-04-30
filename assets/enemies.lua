@@ -143,5 +143,6 @@ function Boss1:emit()
 end
 
 function Boss1:onDeath()
+   self.super:onDeath()
    globals.player.power = globals.player.power - 20
 end
