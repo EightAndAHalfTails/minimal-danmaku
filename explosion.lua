@@ -3,10 +3,11 @@ module(..., package.seeall);
 require "object"
 require "entity"
 
-Explosion = object.create({ text = nil,
-			    ttl  = nil,
-			    offset = nil},
-			  entity.Entity )
+Explosion = object.create(entity.Entity)
+
+Explosion.text   = nil
+Explosion.ttl    = nil
+Explosion.offset = nil
 
 function Explosion:initialise(x, y, text)
    self.super:initialise(x, y, resources.sprites["explosion.png"], 0, 0, 0)

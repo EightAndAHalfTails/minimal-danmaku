@@ -3,14 +3,16 @@ module(..., package.seeall);
 require "object"
 require "physics"
 
-Entity = object.create({x       = nil,
-                        y       = nil,
-                        sprite  = nil,
-                        width   = nil,
-                        height  = nil,
-                        hitbox  = nil,
-                        power   = nil,
-                        visible = true})
+Entity = object.create()
+
+Entity.x       = nil
+Entity.y       = nil
+Entity.sprite  = nil
+Entity.width   = nil
+Entity.height  = nil
+Entity.hitbox  = nil
+Entity.power   = nil
+Entity.visible = true
 
 function Entity:initialise(x, y, sprite, hwidth, hheight, power)
     self.x      = x

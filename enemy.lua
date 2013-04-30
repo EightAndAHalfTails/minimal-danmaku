@@ -5,10 +5,11 @@ require "mob"
 require "explosion"
 require "globals"
 
-Enemy = object.create({delay = 0,
-                       timer = 0,
-                       worth = nil},
-                      mob.Mob)
+Enemy = object.create(mob.Mob)
+
+Enemy.delay = 0
+Enemy.timer = 0
+Enemy.worth = nil
 
 function Enemy:initialise(x, y, sprite, hwidth, hheight, power, health, worth)
    self.super:initialise(x, y, sprite, hwidth, hheight, power, 0, health)
@@ -27,8 +28,7 @@ function Enemy:explode()
    globals.player.score = globals.player.score + self.worth
 end
 
-Boss = object.create({},
-		     Enemy)
+Boss = object.create(Enemy)
 
 function Boss:draw()
    self.super:draw()
