@@ -92,6 +92,9 @@ function Player:emit()
 
    table.insert(globals.bullets, bullet)
 
+   local sfx = love.audio.newSource(resources.sfx["shoot.ogg"])
+   love.audio.play(sfx)
+
    self.delay = 0.15
 end
 
