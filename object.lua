@@ -45,10 +45,23 @@ function create(state, superclass)
          new_inst[k] = v
       end
 
+      -- Set up the metatable
+      local new_inst_mt = {}
+
+      new_inst_mt.__newindex = function(table, key, value)
+         if table.super and table.super[key] then
+            table.super[key] = value
+         else
+            rawset(table, key, value)
+         end
+      end
+
+      setmetatable(new_inst, new_inst_mt)
+
       -- Set up the superclass
       if superclass then
          new_inst.super = superclass:create()
-         setmetatable(new_inst, { __index = new_inst.super })
+         new_inst_mt.__index = new_inst.super
       else
          new_inst.super = nil
       end
