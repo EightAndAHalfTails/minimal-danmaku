@@ -24,14 +24,16 @@ function update(dt)
 end
 
 function execute(entry)
-   if entry.enemyType then
-      --print(entry.enemyType)
-      new_enemy = entry.enemyType:create()
-      new_enemy:initialise(entry.x, entry.y,
-			   entry.vx, entry.vy,
-			   entry.ax, entry.ay,
-			   entry.delay, entry.timer)
-      table.insert(globals.enemies, new_enemy)
+   if entry.enemy then
+      --print(entry.enemy, unpack(entry.args or {}))
+      local new = entry.enemy:create()
+      new:initialise(unpack(entry.args or {}))
+      table.insert(globals.enemies, new)
+   end
+   if entry.bullet then
+      local new = entry.bullet:create()
+      new:initialise(unpack(entry.args or {}))
+      table.insert(globals.bullets, new)
    end
 end
 
