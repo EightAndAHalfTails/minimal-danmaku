@@ -36,7 +36,6 @@ function Boss:draw()
    local y = globals.MAX_Y - 20
    local maxwidth = globals.MAX_X - 20
    local width    = maxwidth * self.health / self.maxhealth 
-   print(width, maxwidth)
 
    r, g, b, a = love.graphics.getColor()
    love.graphics.setColor(0,0,0,128)
