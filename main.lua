@@ -32,8 +32,7 @@ function love.load()
    physics.initialise()
 
    -- Set up player
-   globals.player = player.Player:create()
-   globals.player:initialise(globals.MAX_X/2, globals.MAX_Y-50)
+   globals.player = player.Player:new(globals.MAX_X/2, globals.MAX_Y-50)
 
    -- Load Script
    script.load()

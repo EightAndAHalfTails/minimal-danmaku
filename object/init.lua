@@ -12,8 +12,7 @@ module (..., package.seeall)
 ---- object.
 --
 ---- To get an instance of a class we have already created:
-----    instance = Foo.create()
-----    instance:initialise(...)
+----    instance = Foo:new(...)
 --
 ---- To access an instance's state:
 ----    instance.foo
@@ -32,7 +31,7 @@ module (..., package.seeall)
 function create(state, superclass)
    local new_class = {}
 
-   function new_class:create()
+   function new_class:__create__()
       local new_inst = {}
 
       -- Copy the state
@@ -60,12 +59,24 @@ function create(state, superclass)
 
       -- Set up the superclass
       if superclass then
-         new_inst.super = superclass:create()
+         new_inst.super = superclass:__create__()
          new_inst_mt.__index = new_inst.super
       else
          new_inst.super = nil
       end
 
+      return new_inst
+   end
+
+   function new_class:initialise(...)
+      if self.super then
+         self.super:__init__(...)
+      end
+   end
+
+   function new_class:new(...)
+      local new_inst = new_class:__create__()
+      new_inst:initialise(...)
       return new_inst
    end
 

@@ -51,13 +51,9 @@ function BasicEnemy:update(dt)
 end
 
 function BasicEnemy:emit()
-   local b1 = bullet.Bullet:create()
-   local b2 = bullet.Bullet:create()
-   local b3 = bullet.Bullet:create()
-
-   b1:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
-   b2:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
-   b3:initialise(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
+   local b1 = bullet.Bullet:new(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
+   local b2 = bullet.Bullet:new(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
+   local b3 = bullet.Bullet:new(self.x, self.y, resources.sprites["basicbullet.png"], self.power, false, false, nil)
 
    b1.step = function(self, dt)
       self:move(self.x - 50 * dt, self.y + 200 * dt)
@@ -132,11 +128,8 @@ end
 
 function Boss1:emit()
    
-   local b1 = bullets.Rocket:create()
-   local b2 = bullets.Rocket:create()
-
-   b1:initialise(self.x, self.y, -10, 80, -20, -40, 3, 101)
-   b2:initialise(self.x, self.y,  10, 80,  20, -40, 3, 101)
+   local b1 = bullets.Rocket:new(self.x, self.y, -10, 80, -20, -40, 3, 101)
+   local b2 = bullets.Rocket:new(self.x, self.y,  10, 80,  20, -40, 3, 101)
 
    table.insert(globals.bullets, b1)
    table.insert(globals.bullets, b2)
