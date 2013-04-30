@@ -1,5 +1,9 @@
 module (..., package.seeall)
 
+local _NAME = (...)
+
+object = require(_NAME .. ".object")
+
 -- Object system documentation
 ---- To create a brand new class with some state:
 ----    Foo = object.create({a = nil, b = nil, c = 5})
@@ -27,9 +31,13 @@ module (..., package.seeall)
 ---- any methods of the class are prohibited from being variable names.
 --
 ---- The superclass, if given, is a class that methods and state is
----- inherited from.
+---- inherited from. If one is not given, Object is used.
 function create(state, superclass)
    local new_class = {}
+   
+   if superclass == nil then
+      superclass = object.Object
+   end
 
    function new_class:__create__()
       local new_inst = {}
@@ -44,11 +52,16 @@ function create(state, superclass)
          new_inst[k] = v
       end
 
+      -- Set up the superclass
+      new_inst.super = superclass:__create__()
+
       -- Set up the metatable
       local new_inst_mt = {}
 
+      new_inst_mt.__index = new_inst.super
+
       new_inst_mt.__newindex = function(table, key, value)
-         if table.super and table.super[key] then
+         if table.super[key] then
             table.super[key] = value
          else
             rawset(table, key, value)
@@ -57,21 +70,11 @@ function create(state, superclass)
 
       setmetatable(new_inst, new_inst_mt)
 
-      -- Set up the superclass
-      if superclass then
-         new_inst.super = superclass:__create__()
-         new_inst_mt.__index = new_inst.super
-      else
-         new_inst.super = nil
-      end
-
       return new_inst
    end
 
    function new_class:initialise(...)
-      if self.super then
-         self.super:__init__(...)
-      end
+      self.super:initialise(...)
    end
 
    function new_class:new(...)
