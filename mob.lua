@@ -2,6 +2,8 @@ module(..., package.seeall);
 
 require "object"
 require "entity"
+require "explosion"
+require "globals"
 
 Mob = object.create({lives     = nil,
                      health    = nil,
@@ -28,12 +30,18 @@ function Mob:damage(amount)
       self:onDeath()
       return true
    end
-
 end
 
 function Mob:onDeath()
-   --print(self.health, self.maxhealth)
    self.lives = self.lives - 1
    self.health = self.maxhealth
    self.dead = self.lives < 0
+
+   self:explode()
+end
+
+function Mob:explode()
+   local exp = explosion.Explosion:create()
+   exp:initialise(self.x, self.y)
+   table.insert(globals.explosions, exp)
 end
