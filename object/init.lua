@@ -16,7 +16,7 @@ object = require(_NAME .. ".object")
 ---- object.
 --
 ---- To get an instance of a class we have already created:
-----    instance = Foo:new(...)
+----    instance = Foo(...)
 --
 ---- To access an instance's state:
 ----    instance.foo
@@ -65,7 +65,7 @@ function create(superclass)
       return new_inst
    end
 
-   function new_class:new(...)
+   function new_class:__new__(...)
       local new_inst = new_class:__create__()
       new_inst:initialise(...)
       return new_inst
@@ -78,6 +78,9 @@ function create(superclass)
    function new_class:deinitialise(...)
       self.super:deinitialise(...)
    end
+
+   -- Allow us to make an instance with Class(), rather than Class.__new__()
+   setmetatable(new_class, { __call = new_class.__new__ })
 
    return new_class
 end

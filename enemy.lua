@@ -23,7 +23,7 @@ function Enemy:update(dt)
 end
 
 function Enemy:explode()
-   local exp = explosion.Explosion:new(self.x, self.y, self.worth)
+   local exp = explosion.Explosion(self.x, self.y, self.worth)
    table.insert(globals.explosions, exp)
 
    local sfx = love.audio.newSource(resources.sfx["explosion.ogg"])

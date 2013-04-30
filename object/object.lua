@@ -14,14 +14,16 @@ function Object:__create__()
    return new_inst
 end
 
-function Object:initialise()
-end
-
-function Object:new()
+function Object:__new__()
    local new_inst = Object:__create__()
    new_inst:initialise()
    return new_inst
 end
 
+function Object:initialise()
+end
+
 function Object:deinitialise()
 end
+
+setmetatable(Object, { __call = Object.__new__ })

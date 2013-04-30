@@ -26,11 +26,11 @@ end
 function execute(entry)
    if entry.enemy then
       --print(entry.enemy, unpack(entry.args or {}))
-      local new = entry.enemy:new(unpack(entry.args or {}))
+      local new = entry.enemy(unpack(entry.args or {}))
       table.insert(globals.enemies, new)
    end
    if entry.bullet then
-      local new = entry.bullet:new(unpack(entry.args or {}))
+      local new = entry.bullet(unpack(entry.args or {}))
       table.insert(globals.bullets, new)
    end
 end
